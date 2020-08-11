@@ -1,16 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const  url = "http://yukiabineko.sakura.ne.jp/items";
+const  url = "https://yukiabineko.sakura.ne.jp/items/";
 const tdcheck ={
   width:"10vh"
 }
 
 const  List =(props)=>{
   return(
-    <div>
+    <div className="list-main">
       <div className="text-center">
-        <h2 className="mb-4 mt-3 font-weight-bold">入荷商品一覧</h2>
+      
         <p　className="text-primary">問い合わせ商品がありましたら、チェック欄にチェックいれ送信ボタン押してください。</p>
         <table className="table table-bordered">
           <thead>

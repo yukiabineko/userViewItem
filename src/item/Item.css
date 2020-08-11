@@ -1,4 +1,4 @@
-.main-view{
+.main-view,.list-main{
   overflow-y: scroll;
   height: 500px;
 }
