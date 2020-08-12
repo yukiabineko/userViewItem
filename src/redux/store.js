@@ -4,6 +4,7 @@ const init_data ={
   items:[],
   mode: "default",
   searchItem: []
+ 
 }
 const itemsReducer =(state = init_data, action)=>{
   switch (action.type) {
@@ -18,11 +19,14 @@ const itemsReducer =(state = init_data, action)=>{
 const addReducer =(state, action) =>{
   
   let newItems = state.items.slice();
+
   for(let i=0; i<action.array.length; i++){
     newItems.push({
       path: action.array[i].path,
       name: action.array[i].name,
       price: action.array[i].price,
+      memo: action.array[i].memo,
+      ordering: 0
     });
   }
   return{

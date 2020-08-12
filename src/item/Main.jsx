@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import List from './List';
 import View from './View';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { addItemArray } from '../redux/store';
+import Modal from './Modal';
 
 const  Main =(props)=>{
     
@@ -14,8 +15,34 @@ const  Main =(props)=>{
         props.dispatch(action);
         }
       }).catch((error)=>{
-        alert(error);
+        
       });
+    }
+    /*初期ステートのセット */
+
+    const[state, setState] = useState({
+      listNo: 2,
+      orderData: []
+    })
+    
+    /*説明エリア切替関数*/
+
+    const listNoChange =(param)=>{
+      setState({
+        listNo: param,
+        orderData: state.orderData
+      })
+    
+    }
+    const orderNumber = (i)=>{
+       let item = props.items[i];
+       let stateData = state.orderData.slice();
+       stateData.splice(0);
+       stateData.push({name: item.name, price: item.price, number: item.ordering});
+       setState({
+         listNo: state.listNo,
+         orderData: stateData
+       })
     }
 
   return(
@@ -24,13 +51,22 @@ const  Main =(props)=>{
       <div className="row">
         <div className="col-md-7 border-top">
         <div className="text-center"><h2 className="font-weight-bold mt-3">商品詳細</h2></div>
-         <View />
+         <View listNO={state.listNo} />
         </div>
         <div className="col-md-5 border-top border-left">
         <div className="text-center"><h2 className="mb-4 mt-3 font-weight-bold">入荷商品一覧</h2></div>
-         <List />
+         <List parentSendNo={listNoChange} parentOrder={(i)=>orderNumber(i)} />
         </div>
       </div>
+      {/* 問合せモーダル */}
+      <div id="Qmodal">
+        {state.orderData.length >0? 
+         <Modal thisitem={state.orderData} />
+        : 
+        ''}
+       
+      </div>
+      <div id="layer"></div>
     </div>
   )
 }
