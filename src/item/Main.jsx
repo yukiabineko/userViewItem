@@ -21,8 +21,9 @@ const  Main =(props)=>{
     /*初期ステートのセット */
 
     const[state, setState] = useState({
-      listNo: 2,
-      orderData: []
+      listNo: 0,
+      orderData: [],
+      orderNO: 0
     })
     
     /*説明エリア切替関数*/
@@ -30,7 +31,8 @@ const  Main =(props)=>{
     const listNoChange =(param)=>{
       setState({
         listNo: param,
-        orderData: state.orderData
+        orderData: state.orderData,
+        orderNO: state.orderNO
       })
     
     }
@@ -38,10 +40,11 @@ const  Main =(props)=>{
        let item = props.items[i];
        let stateData = state.orderData.slice();
        stateData.splice(0);
-       stateData.push({name: item.name, price: item.price, number: item.ordering});
+       stateData.push({id: item.id, name: item.name, price: item.price, number: item.ordering});
        setState({
          listNo: state.listNo,
-         orderData: stateData
+         orderData: stateData,
+         orderNO: i
        })
     }
 
@@ -61,7 +64,7 @@ const  Main =(props)=>{
       {/* 問合せモーダル */}
       <div id="Qmodal">
         {state.orderData.length >0? 
-         <Modal thisitem={state.orderData} />
+         <Modal thisitem={state.orderData} NO={state.orderNO} />
         : 
         ''}
        
