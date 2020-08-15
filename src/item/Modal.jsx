@@ -3,16 +3,19 @@ import { connect } from 'react-redux';
 import './Item.css';
 import axios from 'axios';
 import { orderingChange } from '../redux/store';
+import { todayView } from '../getDay';
 
 const  Modal =(props)=>{
   let data = props.thisitem;
+  const day = todayView();
   const[state, setState] = useState({
     id: data.length ===0? '' : data[0].id,
     name: data.length ===0? '' : data[0].name,
     price: data.length ===0? '' : data[0].price,
     number: data.length ===0? 0 : data[0].number,
     shop: '',
-    memo: ''
+    memo: '',
+    day: day
   })
   /*モーダル閉じる*/
   
@@ -28,11 +31,13 @@ const  Modal =(props)=>{
     e.preventDefault();
     let info;
     let data = new URLSearchParams();
+
+    data.append('day', state.day);
+    data.append('name', state.name);
     data.append('shop', state.shop);
     data.append('num',state.number);
     data.append('memo', state.memo);
     data.append('item_id',state.id);
-    
   
     axios.post('https://yukiabineko.sakura.ne.jp/items/userinsertPost.php',data).then((response)=>{
        info =response.data;
@@ -44,18 +49,16 @@ const  Modal =(props)=>{
     let action = orderingChange(props.NO, state.number);
     props.dispatch(action);
     
-
-
     setState({
       id: props.thisitem[0].id,
       name: props.thisitem[0].name,
       price: '',
       number: '',
       shop: '',
-      memo: ''
+      memo: '',
+      day: state.day
     })
     closeModal();
-    alert(info);
     document.getElementById('select').options[0].selected = true;   /*セレクト初期*/
     document.getElementById('modal-form').scrollTo(0,0);            /*スクロールバー初期*/
   }
@@ -72,7 +75,8 @@ const  Modal =(props)=>{
          price: state.price,
          number: e.target.value,
          shop: state.shop,
-         memo: state.memo
+         memo: state.memo,
+         day: state.day
        })
        break;
     case 'shop':
@@ -82,7 +86,8 @@ const  Modal =(props)=>{
           price: state.price,
           number: state.number,
           shop: e.target.value,
-          memo: state.memo
+          memo: state.memo,
+          day: state.day
         })
         break;
     case 'memo':
@@ -92,7 +97,8 @@ const  Modal =(props)=>{
           price: state.price,
           number: state.number,
           shop: state.shop,
-          memo: e.target.value
+          memo: e.target.value,
+          day: state.day
         })
         break;
     default:
@@ -113,6 +119,8 @@ const  Modal =(props)=>{
             <label className="font-weight-bold">発注商品名:</label>
             <span className="font-weight-bold">{data[0].name}</span>
             <input type="hidden" name="name" value={data[0].id} />
+            <input type="hidden" name="name" value={data[0].name} />
+            <input type="hidden" name="name" value={data[0].day} />
           </div>
 
           <div className="form-group text-left">
