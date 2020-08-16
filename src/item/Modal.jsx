@@ -38,6 +38,7 @@ const  Modal =(props)=>{
     data.append('num',state.number);
     data.append('memo', state.memo);
     data.append('item_id',state.id);
+    data.append('price',state.id);
   
     axios.post('https://yukiabineko.sakura.ne.jp/items/userinsertPost.php',data).then((response)=>{
        info =response.data;
