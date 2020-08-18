@@ -4,9 +4,24 @@ import './App.css';
 import { BrowserRouter, Link, Route } from 'react-router-dom';
 import ItemMain from './item/Main';
 import QuestionMain from './question/Main';
+import Login from './login';
 import { connect } from 'react-redux';
+import {cookieParse} from './cookieData';
+import { cookieData, resetcookie} from './redux/store';
 
-const App = ()=>{
+const App = (props)=>{
+  let datas = cookieParse();
+  if(datas){
+    let action = cookieData(datas.id, datas.shop);
+    props.dispatch(action);
+  }
+
+  const logout =() =>{
+    document.cookie = "user=;max-age=0"
+    let action = resetcookie();
+    props.dispatch(action);
+  }
+  
   return(
     <div>
       <BrowserRouter>
@@ -20,14 +35,33 @@ const App = ()=>{
               <Link to='/question' className="text-info font-weight-bold">問い合わせ</Link>
             </li>
           </ul>
+          <ul className="navbar-nav">　
+          {props.userId === null? 
+          '' : 
+          <li className="nav-item text-white mr-3">
+            <p className="mt-2">{props.shop +"店"}</p>
+          </li>
+          }
+         
+          <li className="nav-item">
+            {props.userId === null?
+             <Link to="/login" className="nav-link text-light font-weight-bold">ログイン</Link>
+            : 
+            <Link to="#" className="nav-link text-light font-weight-bold" onClick={logout}>ログアウト</Link>
+            }
+           
+          </li>
+          </ul>
         </nav>
+        
         <div>
         <Route exact path='/' component={ItemMain} />
         <Route  path='/question' component={QuestionMain} />
+        <Route  path='/login' component={Login} />
         </div>
        
       </BrowserRouter>
     </div>
   )
 }
-export default  connect()(App);
+export default  connect((state)=>state)(App);

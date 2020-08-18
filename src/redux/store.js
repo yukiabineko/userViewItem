@@ -1,9 +1,14 @@
 import { createStore } from "redux";
 
+
+/********************************************************* */
+
 const init_data ={
   items:[],
   mode: "default",
-  searchItem: []
+  searchItem: [],
+  userId: null,
+  shop: null
  
 }
 const itemsReducer =(state = init_data, action)=>{
@@ -12,11 +17,17 @@ const itemsReducer =(state = init_data, action)=>{
       return addReducer(state, action);
     case "ORDERINGCHANGE":
       return orderingChangeReducer(state, action);  
-  
+    case "LOGIN":
+      return loginReducer(state, action); 
+    case "COOKIE":
+      return cookieReducer(state, action); 
+    case "COOKIEDEL":
+      return resetcookieReducer(state, action); 
     default:
       return state;
   }
 }
+/***************************************************************************************** */
 /*商品の登録 */
 
 const addReducer =(state, action) =>{
@@ -36,7 +47,9 @@ const addReducer =(state, action) =>{
   return{
     items: newItems,
     mode: 'default',
-    searchItem: []
+    searchItem: [],
+    userId: state.userId,
+    shop: state.shop
   }
 }
 /*商品登録用*/
@@ -47,6 +60,7 @@ export const addItemArray =(array)=>{
     array: array
   }
 }
+/****************************************************************** */
 /*数値変更レデユサー*/
 
 const orderingChangeReducer = (state, action)=>{
@@ -57,7 +71,9 @@ const orderingChangeReducer = (state, action)=>{
   return{
     items: newData,
     mode: "default",
-    searchItem: []
+    searchItem: [],
+    userId: state.userId,
+    shop: state.shop
   }
 }
 /*数値変更メソット*/
@@ -67,6 +83,57 @@ export const orderingChange =(index, number)=>{
     type: 'ORDERINGCHANGE',
     index: index,
     number: number
+  }
+}
+/********************************************************** */
+/*login レデユサー*/
+
+const loginReducer =(state, action)=>{
+ let userId = action.id;
+ return{
+   items: state.items,
+   mode: state.mode,
+   serchItem: state.searchItem,
+   userId: userId,
+   shop: state.shop
+ }
+}
+/*ログイン用id格納*/
+export const loginSetId =(id)=>{
+  return{
+    type: 'LOGIN',
+    id: id
+  }
+}
+/******************************************************** */
+const cookieReducer =(state, action)=>{
+  return{
+    items: state.items,
+    mode: state.mode,
+    serchItem: state.searchItem,
+    userId: action.id,
+    shop: action.shop
+  }
+}
+export const cookieData =(id, shop)=>{
+  return{
+    type: 'COOKIE',
+    id :id,
+    shop: shop
+  }
+}
+const resetcookieReducer =(state, action)=>{
+  return{
+    items: state.items,
+    mode: state.mode,
+    serchItem: state.searchItem,
+    userId: null,
+    shop: null
+  }
+}
+export const resetcookie =()=>{
+  return{
+    type: 'COOKIEDEL',
   }
 }
 
