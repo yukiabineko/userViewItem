@@ -63,15 +63,15 @@ const  List =(props)=>{
                   <p className="font-weight-bold">{"商品名:  " + value.name}</p>
                   <p className="font-weight-bold">価格:<span className="text-danger">{value.price}</span>円</p>
                 </td>
-               
-                  {props.userId === null? 
-                    <td className="border-none"></td>
-                    : 
-                    <td className="border-left-0 align-middle">
+                <td className="border-left-0 align-middle">
                       <button className="btn btn-primary btn-block" onClick={()=>parentSendNo(i)}>説明</button><br/>
-                      <button className="btn btn-primary btn-block" onClick={()=>modalOpen(i)}>発注</button>
-                    </td>
-                  }
+                      {props.userId === null?
+                         '' 
+                         : 
+                         <button className="btn btn-primary btn-block" onClick={()=>modalOpen(i)}>発注</button>
+                      }
+                    
+                </td>
                   {props.userId === null? 
                      ''
                     : 

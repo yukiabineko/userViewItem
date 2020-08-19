@@ -5,6 +5,9 @@ import './App.css';
 import { loginSetId } from './redux/store';
 import axios from 'axios';
 
+
+var id=0;
+
 const  Login =(props)=>{
   const[state, setState] = useState({
     email: '',
@@ -31,7 +34,7 @@ const  Login =(props)=>{
    }
   }
   const doSubmit =(event)=>{
-    let id=0;
+  
     event.preventDefault();
     let data = new URLSearchParams();
 
@@ -52,6 +55,17 @@ const  Login =(props)=>{
       }).catch((error)=>{
         alert(error);
       });
+      let data2 = new URLSearchParams();
+      data2.append('id', id);
+      axios.post("https://yukiabineko.sakura.ne.jp/items/userOrdersJson.php", data2).then((response)=>{
+        
+        if(response.data){
+          alert(JSON.stringify(response.data));
+      
+        }
+        }).catch((error)=>{
+          alert(error);
+        })
     
     setState({
       email: '',

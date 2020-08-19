@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-
+import axios from 'axios';
 
 /********************************************************* */
 
@@ -89,7 +89,10 @@ export const orderingChange =(index, number)=>{
 /*login レデユサー*/
 
 const loginReducer =(state, action)=>{
+  
  let userId = action.id;
+ 
+
  return{
    items: state.items,
    mode: state.mode,
