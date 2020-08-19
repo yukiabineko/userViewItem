@@ -31,6 +31,7 @@ const  Login =(props)=>{
    }
   }
   const doSubmit =(event)=>{
+    let id=0;
     event.preventDefault();
     let data = new URLSearchParams();
 
@@ -38,12 +39,18 @@ const  Login =(props)=>{
     data.append('password', state.password);
    
   
-    axios.post("https://yukiabineko.sakura.ne.jp/items/login.php", data).then((response)=>{
+    axios.post("https://yukiabineko.sakura.ne.jp/items/userOrder.php", data).then((response)=>{
   
       if(response.data){
         let action = loginSetId(response.data.id);
+        id = Number(response.data.id);
         props.dispatch(action);
         document.cookie ="user="+JSON.stringify(response.data);
+        
+        
+
+
+
         document.location ="/";
       }
       }).catch((error)=>{
@@ -54,7 +61,7 @@ const  Login =(props)=>{
       email: '',
       password: ''
     });
-    
+   
   }
   return(
     <div>
