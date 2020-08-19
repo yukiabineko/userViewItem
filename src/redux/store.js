@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import axios from 'axios';
+
 
 /********************************************************* */
 
@@ -17,12 +17,13 @@ const itemsReducer =(state = init_data, action)=>{
       return addReducer(state, action);
     case "ORDERINGCHANGE":
       return orderingChangeReducer(state, action);  
-    case "LOGIN":
-      return loginReducer(state, action); 
+    
     case "COOKIE":
       return cookieReducer(state, action); 
     case "COOKIEDEL":
       return resetcookieReducer(state, action); 
+    case "ORDERDATA":
+      return orderData(state, action); 
     default:
       return state;
   }
@@ -33,6 +34,7 @@ const itemsReducer =(state = init_data, action)=>{
 const addReducer =(state, action) =>{
   
   let newItems = state.items.slice();
+  newItems.splice(0);
 
   for(let i=0; i<action.array.length; i++){
     newItems.push({
@@ -85,29 +87,7 @@ export const orderingChange =(index, number)=>{
     number: number
   }
 }
-/********************************************************** */
-/*login レデユサー*/
 
-const loginReducer =(state, action)=>{
-  
- let userId = action.id;
- 
-
- return{
-   items: state.items,
-   mode: state.mode,
-   serchItem: state.searchItem,
-   userId: userId,
-   shop: state.shop
- }
-}
-/*ログイン用id格納*/
-export const loginSetId =(id)=>{
-  return{
-    type: 'LOGIN',
-    id: id
-  }
-}
 /******************************************************** */
 const cookieReducer =(state, action)=>{
   return{
@@ -137,6 +117,41 @@ const resetcookieReducer =(state, action)=>{
 export const resetcookie =()=>{
   return{
     type: 'COOKIEDEL',
+  }
+}
+/*********************************************************************** */
+/*各ユーザーオーダーレデユサー*/
+const orderData =(state, action)=>{
+  alert(JSON.stringify(action.jsonData));
+  alert(action.jsonData.length);
+  alert(action.jsonData[0].user_id);
+  let newData = state.items.slice();
+  newData.splice(0);
+  for(let i=0; i<action.jsonData.length; i++){
+    newData.push({
+      id: action.jsonData[i].id,
+      path: action.jsonData[i].path,
+      name: action.jsonData[i].name,
+      price: action.jsonData[i].price,
+      memo: action.jsonData[i].memo,
+      ordering: action.jsonData[i].num
+    });
+  }
+  return{
+    items: newData,
+    mode: state.mode,
+    serchItem: state.searchItem,
+    userId: action.jsonData[0].user_id,
+    shop: state.shop
+  }
+
+
+}
+/*各ユーザーのオーダー*/
+export const orderSend =(json)=>{
+  return{
+    type: 'ORDERDATA',
+    jsonData: json
   }
 }
 

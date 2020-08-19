@@ -2,11 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useState } from 'react';
 import './App.css';
-import { loginSetId } from './redux/store';
+import { loginSetId, orderSend } from './redux/store';
 import axios from 'axios';
+import { withRouter } from 'react-router';
 
-
-var id=0;
 
 const  Login =(props)=>{
   const[state, setState] = useState({
@@ -45,27 +44,26 @@ const  Login =(props)=>{
     axios.post("https://yukiabineko.sakura.ne.jp/items/userOrder.php", data).then((response)=>{
   
       if(response.data){
-        let action = loginSetId(response.data.id);
-        id = Number(response.data.id);
+        let action = orderSend(response.data);
         props.dispatch(action);
         document.cookie ="user="+JSON.stringify(response.data);
-
-        document.location ="/";
+       
       }
       }).catch((error)=>{
         alert(error);
       });
-      let data2 = new URLSearchParams();
+      /*let data2 = new URLSearchParams();
       data2.append('id', id);
       axios.post("https://yukiabineko.sakura.ne.jp/items/userOrdersJson.php", data2).then((response)=>{
         
         if(response.data){
-          alert(JSON.stringify(response.data));
-      
+          let action = orderSend(response.data);
+          props.dispatch(action);
+         
         }
         }).catch((error)=>{
           alert(error);
-        })
+        })*/
     
     setState({
       email: '',
@@ -100,4 +98,4 @@ const  Login =(props)=>{
     </div>
   )
 }
-export default connect((state=>state))(Login);
+export default connect((state=>state))(Login)

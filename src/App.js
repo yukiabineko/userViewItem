@@ -36,12 +36,12 @@ const App = (props)=>{
             </li>
           </ul>
           <ul className="navbar-nav">　
-          {props.userId === null? 
+          {/*{props.userId === null? 
           '' : 
           <li className="nav-item text-white mr-3">
             <p className="mt-2">{props.shop +"店"}</p>
           </li>
-          }
+          } */}
          
           <li className="nav-item">
             {props.userId === null?
