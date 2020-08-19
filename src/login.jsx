@@ -46,10 +46,6 @@ const  Login =(props)=>{
         id = Number(response.data.id);
         props.dispatch(action);
         document.cookie ="user="+JSON.stringify(response.data);
-        
-        
-
-
 
         document.location ="/";
       }
