@@ -90,19 +90,31 @@ export const orderingChange =(index, number)=>{
 
 /******************************************************** */
 const cookieReducer =(state, action)=>{
+  let newData = state.items.slice();
+  newData.splice(0);
+  for(let i=0; i<action.datas.length; i++){
+    newData.push({
+      id: action.datas[i].id,
+      path: action.datas[i].path,
+      name: action.datas[i].name,
+      price: action.datas[i].price,
+      memo: action.datas[i].memo,
+      ordering: action.datas[i].num
+    });
+  }
+
   return{
-    items: state.items,
+    items: newData,
     mode: state.mode,
     serchItem: state.searchItem,
-    userId: action.id,
+    userId: action.datas[0].id,
     shop: action.shop
   }
 }
-export const cookieData =(id, shop)=>{
+export const cookieData =(cookie)=>{
   return{
     type: 'COOKIE',
-    id :id,
-    shop: shop
+    datas: cookie
   }
 }
 const resetcookieReducer =(state, action)=>{

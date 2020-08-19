@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter, Link, Route } from 'react-router-dom';
@@ -9,21 +9,23 @@ import { connect } from 'react-redux';
 import {cookieParse} from './cookieData';
 import { cookieData, resetcookie} from './redux/store';
 
-const App = (props)=>{
-  let datas = cookieParse();
-  if(datas){
-    let action = cookieData(datas.id, datas.shop);
-    props.dispatch(action);
+class App extends Component{
+  constructor(props){
+    super(props);
+    let datas = cookieParse();
+    if(datas){
+      let action = cookieData(datas);
+      props.dispatch(action);
+    }
   }
-
-  const logout =() =>{
+  logout =() =>{
     document.cookie = "user=;max-age=0"
     let action = resetcookie();
-    props.dispatch(action);
+    this.props.dispatch(action);
   }
-  
-  return(
-    <div>
+  render(){
+    return(
+      <div>
       <BrowserRouter>
         <nav className="navbar navbar-expand-lg navbar-light bg-dark">
           <a className="navbar-brand text-white font-weight-bold mr-3" href="#">入荷商品管理</a>
@@ -44,10 +46,10 @@ const App = (props)=>{
           } */}
          
           <li className="nav-item">
-            {props.userId === null?
+            {this.props.userId === null?
              <Link to="/login" className="nav-link text-light font-weight-bold">ログイン</Link>
             : 
-            <Link to="#" className="nav-link text-light font-weight-bold" onClick={logout}>ログアウト</Link>
+            <Link to="#" className="nav-link text-light font-weight-bold" onClick={this.logout}>ログアウト</Link>
             }
            
           </li>
@@ -62,6 +64,8 @@ const App = (props)=>{
        
       </BrowserRouter>
     </div>
-  )
+    )
+  }
 }
+
 export default  connect((state)=>state)(App);
