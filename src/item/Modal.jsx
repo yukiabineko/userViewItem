@@ -4,17 +4,21 @@ import './Item.css';
 import axios from 'axios';
 import { orderingChange } from '../redux/store';
 import { todayView } from '../getDay';
+import { withRouter } from 'react-router';
+
 
 const  Modal =(props)=>{
   let data = props.thisitem;
   const day = todayView();
+
+ 
   const[state, setState] = useState({
     id: data.length ===0? '' : data[0].id,
     name: data.length ===0? '' : data[0].name,
     price: data.length ===0? '' : data[0].price,
     number: data.length ===0? 0 : data[0].number,
     shop: '',
-    memo: '',
+    memo: data.length ===0? 0 : data[0].memo,
     day: day
   })
   /*モーダル閉じる*/
@@ -24,6 +28,10 @@ const  Modal =(props)=>{
     let modal = document.getElementById('Qmodal');
     layer.style.display ="none";
     modal.style.transform = "translateY(-150%)"
+    document.getElementById('modal-form').scrollTo(0,0);
+    
+    
+    
   }
   /*送信ボタン押し下サーバー送信*/
 
@@ -49,6 +57,8 @@ const  Modal =(props)=>{
     /* redux store変更*/
     let action = orderingChange(props.NO, state.number);
     props.dispatch(action);
+    
+
     
     setState({
       id: props.thisitem[0].id,
@@ -112,7 +122,12 @@ const  Modal =(props)=>{
       <div className="text-right mb-3">
         <button onClick={closeModal}>x</button>
       </div> 
+      {data[0].number >0? 
+         <div className="text-center text-primary"><h2 className="mb-4 font-weight-bold border-bottom">注文編集</h2></div>
+        : 
         <div className="text-center"><h2 className="mb-4 font-weight-bold border-bottom">注文商品</h2></div>
+      }
+     
       <div className="text-center border pl-5 pr-5 bg-light modal-form" id="modal-form">
        
         <form onSubmit={doSubmit}>
@@ -144,13 +159,13 @@ const  Modal =(props)=>{
               className="form-control"
                min ="1" 
                step="1" 
-               value={state.number} 
+               value={data[0].number} 
                onChange={doChange} 
                required />
           </div>
           <div className="form-group text-left">
             <label className="font-weight-bold">質問</label>
-            <textarea name="memo" className="form-control" rows="4" onChange={doChange} value={state.memo}></textarea>
+            <textarea name="memo" className="form-control" rows="4" onChange={doChange} value={data[0].memo}></textarea>
           </div>
           <div className="text-center pb-3">
             <input type="submit" value="送信" className="btn btn-primary" />
@@ -162,4 +177,4 @@ const  Modal =(props)=>{
   
   )
 }
-export default connect((state=>state))(Modal);
+export default withRouter(connect((state=>state))(Modal))

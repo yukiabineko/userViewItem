@@ -27,7 +27,7 @@ const  View =(props)=>{
           </div>
             <p className="font-weight-bold">商品説明</p>
           <div className="border pb-5 ml-2 bg-white">
-            {itemData.memo}
+            {itemData.info}
           </div>
       </div>
       }

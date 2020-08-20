@@ -40,7 +40,7 @@ const  Main =(props)=>{
        let item = props.items[i];
        let stateData = state.orderData.slice();
        stateData.splice(0);
-       stateData.push({id: item.id, name: item.name, price: item.price, number: item.ordering});
+       stateData.push({id: item.id, name: item.name, price: item.price, memo: item.memo, number: item.ordering});
        setState({
          listNo: state.listNo,
          orderData: stateData,

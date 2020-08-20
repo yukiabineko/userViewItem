@@ -13,10 +13,12 @@ class App extends Component{
   constructor(props){
     super(props);
     let datas = cookieParse();
+    
     if(datas){
-      let action = cookieData(datas);
+      let action = cookieData(datas['user'],datas['order']);
       props.dispatch(action);
     }
+    
   }
   logout =() =>{
     document.cookie = "user=;max-age=0"
@@ -38,12 +40,12 @@ class App extends Component{
             </li>
           </ul>
           <ul className="navbar-nav">　
-          {/*{props.userId === null? 
+        　{this.props.userId === null? 
           '' : 
           <li className="nav-item text-white mr-3">
-            <p className="mt-2">{props.shop +"店"}</p>
+            <p className="mt-2">{this.props.shop}</p>
           </li>
-          } */}
+          } 
          
           <li className="nav-item">
             {this.props.userId === null?

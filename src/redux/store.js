@@ -42,7 +42,8 @@ const addReducer =(state, action) =>{
       path: action.array[i].path,
       name: action.array[i].name,
       price: action.array[i].price,
-      memo: action.array[i].memo,
+      memo: null,
+      info: action.array[i].info,
       ordering: 0
     });
   }
@@ -92,14 +93,15 @@ export const orderingChange =(index, number)=>{
 const cookieReducer =(state, action)=>{
   let newData = state.items.slice();
   newData.splice(0);
-  for(let i=0; i<action.datas.length; i++){
+  for(let i=0; i<action.orders.length; i++){
     newData.push({
-      id: action.datas[i].id,
-      path: action.datas[i].path,
-      name: action.datas[i].name,
-      price: action.datas[i].price,
-      memo: action.datas[i].memo,
-      ordering: action.datas[i].num
+      id: action.orders[i].id,
+      path: action.orders[i].path,
+      name: action.orders[i].name,
+      price: action.orders[i].price,
+      memo: action.orders[i].memo,
+      info: action.orders[i].info,
+      ordering: action.orders[i].num
     });
   }
 
@@ -107,14 +109,15 @@ const cookieReducer =(state, action)=>{
     items: newData,
     mode: state.mode,
     serchItem: state.searchItem,
-    userId: action.datas[0].id,
-    shop: action.shop
+    userId: action.users.id,
+    shop: action.users.shop
   }
 }
-export const cookieData =(cookie)=>{
+export const cookieData =(users,orders)=>{
   return{
     type: 'COOKIE',
-    datas: cookie
+    users: users,
+    orders: orders
   }
 }
 const resetcookieReducer =(state, action)=>{
@@ -134,9 +137,6 @@ export const resetcookie =()=>{
 /*********************************************************************** */
 /*各ユーザーオーダーレデユサー*/
 const orderData =(state, action)=>{
-  alert(JSON.stringify(action.jsonData));
-  alert(action.jsonData.length);
-  alert(action.jsonData[0].user_id);
   let newData = state.items.slice();
   newData.splice(0);
   for(let i=0; i<action.jsonData.length; i++){
@@ -146,6 +146,7 @@ const orderData =(state, action)=>{
       name: action.jsonData[i].name,
       price: action.jsonData[i].price,
       memo: action.jsonData[i].memo,
+      info: action.jsonData[i].info,
       ordering: action.jsonData[i].num
     });
   }

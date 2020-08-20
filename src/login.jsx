@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useState } from 'react';
 import './App.css';
-import { loginSetId, orderSend } from './redux/store';
+import { orderSend } from './redux/store';
 import axios from 'axios';
 import { withRouter } from 'react-router';
 
@@ -43,14 +43,20 @@ const  Login =(props)=>{
   
     axios.post("https://yukiabineko.sakura.ne.jp/items/userOrder.php", data).then((response)=>{
   
-      if(response.data){
-        let action = orderSend(response.data);
-        props.dispatch(action);
-        document.cookie ="user="+JSON.stringify(response.data);
-       
-      }
+        if(response.data){
+          let action = orderSend(response.data);
+          props.dispatch(action);
+          document.cookie ="user="+JSON.stringify(response.data);
+          document.location="/";
+        }
+        else{
+          let flash = document.getElementById('flash');
+          flash.style.transform ="translateX(0%)";
+
+        }
       }).catch((error)=>{
-        alert(error);
+        let flash = document.getElementById('flash');
+        flash.style.transform = "translateX(0%)";
       });
       /*let data2 = new URLSearchParams();
       data2.append('id', id);
@@ -73,6 +79,11 @@ const  Login =(props)=>{
   }
   return(
     <div>
+      <div className="row mt-3" id="flash">
+        <div className="col-md-8 offset-2">
+          <div className="alert alert-danger">認証失敗しました。</div>
+        </div>
+      </div>
       
       <div className="text-center font-weight-bold mt-5 mb-3">
         <h1>ログイン</h1>

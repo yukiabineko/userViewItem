@@ -68,16 +68,19 @@ const  List =(props)=>{
                       {props.userId === null?
                          '' 
                          : 
-                         <button className="btn btn-primary btn-block" onClick={()=>modalOpen(i)}>発注</button>
+                         /*編集か新規オーダーか*/
+                         value.ordering >0? 
+                         <button className="btn btn-success btn-block" onClick={()=>modalOpen(i)}>修正</button>  
+                          : 
+                          <button className="btn btn-primary btn-block" onClick={()=>modalOpen(i)}>発注</button>  
                       }
-                    
                 </td>
                   {props.userId === null? 
                      ''
                     : 
-                      <td className="text-center align-middle text-danger font-weight-bold" style={tdcheck}>
-                      {value.ordering}
-                      </td>
+                    <td className="text-center align-middle text-danger font-weight-bold" style={tdcheck}>
+                     {value.ordering}
+                    </td>
                     }
                
               </tr>
