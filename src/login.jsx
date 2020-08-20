@@ -44,9 +44,11 @@ const  Login =(props)=>{
     axios.post("https://yukiabineko.sakura.ne.jp/items/userOrder.php", data).then((response)=>{
   
         if(response.data){
-          let action = orderSend(response.data);
-          props.dispatch(action);
-          document.cookie ="user="+JSON.stringify(response.data);
+          if(!document.cookie){
+            let action = orderSend(response.data);
+            props.dispatch(action);
+            document.cookie ="user="+JSON.stringify(response.data);
+          }
           document.location="/";
         }
         else{

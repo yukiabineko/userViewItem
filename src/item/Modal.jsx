@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import './Item.css';
 import axios from 'axios';
-import { orderingChange } from '../redux/store';
+import { orderingChange,orderSend } from '../redux/store';
 import { todayView } from '../getDay';
 import { withRouter } from 'react-router';
 
@@ -29,7 +29,9 @@ const  Modal =(props)=>{
     layer.style.display ="none";
     modal.style.transform = "translateY(-150%)"
     document.getElementById('modal-form').scrollTo(0,0);
-    
+    modal.addEventListener('transitionend',()=>{
+      window.location.reload();
+    })
     
     
   }
@@ -37,26 +39,31 @@ const  Modal =(props)=>{
 
   const doSubmit =(e)=>{
     e.preventDefault();
-    let info;
     let data = new URLSearchParams();
 
+    data.append('user_id', props.userId);
     data.append('day', state.day);
     data.append('name', state.name);
-    data.append('shop', state.shop);
     data.append('num',state.number);
     data.append('memo', state.memo);
     data.append('item_id',state.id);
-    data.append('price',state.id);
+    data.append('price',state.price);
+
   
-    axios.post('https://yukiabineko.sakura.ne.jp/items/userinsertPost.php',data).then((response)=>{
-       info =response.data;
+    axios.post('https://yukiabineko.sakura.ne.jp/items/userUpdatepost.php',data).then((response)=>{
+       /* redux store変更*/
+       alert(JSON.stringify(response.data));
+      let action = orderSend(response.data);
+      props.dispatch(action);
+      document.cookie ="user="+JSON.stringify(response.data);
     }).catch((error)=>{
       console.log(error);
     });
+    
 
-    /* redux store変更*/
+    /* redux store変更
     let action = orderingChange(props.NO, state.number);
-    props.dispatch(action);
+    props.dispatch(action);*/
     
 
     
@@ -159,13 +166,13 @@ const  Modal =(props)=>{
               className="form-control"
                min ="1" 
                step="1" 
-               value={data[0].number} 
+               value={state.number} 
                onChange={doChange} 
                required />
           </div>
           <div className="form-group text-left">
             <label className="font-weight-bold">質問</label>
-            <textarea name="memo" className="form-control" rows="4" onChange={doChange} value={data[0].memo}></textarea>
+            <textarea name="memo" className="form-control" rows="4" onChange={doChange} value={state.memo}></textarea>
           </div>
           <div className="text-center pb-3">
             <input type="submit" value="送信" className="btn btn-primary" />
