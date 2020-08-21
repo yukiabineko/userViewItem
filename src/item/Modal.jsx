@@ -10,7 +10,6 @@ import { withRouter } from 'react-router';
 const  Modal =(props)=>{
   let data = props.thisitem;
   const day = todayView();
-
  
   const[state, setState] = useState({
     id: data.length ===0? '' : data[0].id,
@@ -18,7 +17,7 @@ const  Modal =(props)=>{
     price: data.length ===0? '' : data[0].price,
     number: data.length ===0? 0 : data[0].number,
     shop: '',
-    memo: data.length ===0? 0 : data[0].memo,
+    memo: data.length ===0? '' : data[0].memo,
     day: day
   })
   /*モーダル閉じる*/
@@ -52,10 +51,12 @@ const  Modal =(props)=>{
   
     axios.post('https://yukiabineko.sakura.ne.jp/items/userUpdatepost.php',data).then((response)=>{
        /* redux store変更*/
-       alert(JSON.stringify(response.data));
+       let today = todayView();
+       document.cookie ="" + today+"="+JSON.stringify(response.data);
+       closeModal();
       let action = orderSend(response.data);
       props.dispatch(action);
-      document.cookie ="user="+JSON.stringify(response.data);
+     
     }).catch((error)=>{
       console.log(error);
     });
@@ -76,9 +77,9 @@ const  Modal =(props)=>{
       memo: '',
       day: state.day
     })
-    closeModal();
-    document.getElementById('select').options[0].selected = true;   /*セレクト初期*/
-    document.getElementById('modal-form').scrollTo(0,0);            /*スクロールバー初期*/
+   
+    /*document.getElementById('select').options[0].selected = true;   /*セレクト初期*/
+   /* document.getElementById('modal-form').scrollTo(0,0);            /*スクロールバー初期*/
   }
 
 

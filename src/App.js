@@ -21,7 +21,7 @@ class App extends Component{
     
   }
   logout =() =>{
-    document.cookie = "user=;max-age=0"
+   /* document.cookie = "user=;max-age=0"*/
     let action = resetcookie();
     this.props.dispatch(action);
   }

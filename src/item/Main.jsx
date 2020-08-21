@@ -8,7 +8,7 @@ import Modal from './Modal';
 
 const  Main =(props)=>{
     
-    if(!document.cookie){
+    if(props.cookieUse ===true){
       axios("https://yukiabineko.sakura.ne.jp/items/viewJson.php").then((response)=>{
       if(response.data){
         let action = addItemArray(response.data);

@@ -4,14 +4,28 @@ import { useState } from 'react';
 import './App.css';
 import { orderSend } from './redux/store';
 import axios from 'axios';
+import {  todayView } from './getDay';
 import { withRouter } from 'react-router';
 
 
 const  Login =(props)=>{
+  //ログイン時ページアクセス禁止
+
+  const redirectFunc=()=>{
+    if(props.userId >0){
+      props.history.push('/');
+    }
+  }
+  /*ステートセット*/
+
+  const st = useState(redirectFunc);
   const[state, setState] = useState({
     email: '',
     password: ''
   });
+
+  /*項目変更*/
+
   const doChange=(event)=>{
    switch (event.target.name) {
 
@@ -32,8 +46,10 @@ const  Login =(props)=>{
        break;
    }
   }
+  /*ログイン認証、COOKIEセット*/
+
   const doSubmit =(event)=>{
-  
+    
     event.preventDefault();
     let data = new URLSearchParams();
 
@@ -42,14 +58,12 @@ const  Login =(props)=>{
    
   
     axios.post("https://yukiabineko.sakura.ne.jp/items/userOrder.php", data).then((response)=>{
-  
+         let today = todayView();
         if(response.data){
-          if(!document.cookie){
             let action = orderSend(response.data);
             props.dispatch(action);
-            document.cookie ="user="+JSON.stringify(response.data);
-          }
-          document.location="/";
+            document.cookie = ""+today+"="+JSON.stringify(response.data);
+            document.location="/";
         }
         else{
           let flash = document.getElementById('flash');
@@ -111,4 +125,4 @@ const  Login =(props)=>{
     </div>
   )
 }
-export default connect((state=>state))(Login)
+export default  withRouter(connect((state=>state))(Login))

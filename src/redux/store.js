@@ -4,11 +4,12 @@ import { createStore } from "redux";
 /********************************************************* */
 
 const init_data ={
-  items:[],
-  mode: "default",
-  searchItem: [],
-  userId: null,
-  shop: null
+  items:[],            //表示データ
+  mode: "default",    
+  searchItem: [],  
+  userId: null,        //ログインユーザーid
+  shop: null,          //ログイン店舗名
+  cookieUse: false     //ログイン時クッキー使用
  
 }
 const itemsReducer =(state = init_data, action)=>{
@@ -52,7 +53,8 @@ const addReducer =(state, action) =>{
     mode: 'default',
     searchItem: [],
     userId: state.userId,
-    shop: state.shop
+    shop: state.shop,
+    cookieUse: state.cookieUse
   }
 }
 /*商品登録用*/
@@ -76,7 +78,8 @@ const orderingChangeReducer = (state, action)=>{
     mode: "default",
     searchItem: [],
     userId: state.userId,
-    shop: state.shop
+    shop: state.shop,
+    cookieUse: state.cookieUse
   }
 }
 /*数値変更メソット*/
@@ -110,7 +113,8 @@ const cookieReducer =(state, action)=>{
     mode: state.mode,
     serchItem: state.searchItem,
     userId: action.users.id,
-    shop: action.users.shop
+    shop: action.users.shop,
+    cookieUse: state.cookieUse
   }
 }
 export const cookieData =(users,orders)=>{
@@ -126,7 +130,8 @@ const resetcookieReducer =(state, action)=>{
     mode: state.mode,
     serchItem: state.searchItem,
     userId: null,
-    shop: null
+    shop: null,
+    cookieUse: false
   }
 }
 export const resetcookie =()=>{
@@ -155,7 +160,8 @@ const orderData =(state, action)=>{
     mode: state.mode,
     serchItem: state.searchItem,
     userId: action.jsonData[0].user_id,
-    shop: state.shop
+    shop: state.shop,
+    cookieUse: true
   }
 
 

@@ -29,7 +29,7 @@
 }
 .modal-form{
  overflow-y: scroll;
- height: 300px;
+ height: 250px;
 }
 ::-webkit-scrollbar{
   width: 10px;
