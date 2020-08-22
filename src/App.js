@@ -36,7 +36,7 @@ class App extends Component{
               <Link to='/' className="text-info font-weight-bold">商品チェック</Link>
             </li>
             <li className="nav-item text-light">
-              <Link to='/orders' className="text-info font-weight-bold">問い合わせ</Link>
+              <Link to='/orders' className="text-info font-weight-bold">発注状況</Link>
             </li>
           </ul>
           <ul className="navbar-nav">　

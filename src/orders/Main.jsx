@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useState } from 'react';
 import axios from 'axios';
-import { createPortal } from 'react-dom';
+
 
 
 const nameheader={width:'20%'}
@@ -13,6 +13,7 @@ const total ={width:'20%'}
 const confirm ={width:'20%'}
 
 const  Main =()=>{
+  
   /*ステートデータセット*/
   const[state, setState] = useState({
     data: []
@@ -29,6 +30,17 @@ const  Main =()=>{
     });
   }
   useState(getOrderJson);
+  /*各店舗合計発注金額*/
+
+  const shopTotal =(value)=>{
+    let total = 0;
+    let objs = value[Object.keys(value)];
+    for(let i=0; i<objs.length; i++){
+      total += ( Number(objs[i].price) * Number(objs[i].num));
+    }
+    return total;
+    
+  }
 
   return(
     <div>
@@ -70,8 +82,11 @@ const  Main =()=>{
                       </tr>
                       ))}
                   </table>
-              
+                  <div className="font-weight-bold">合計発注金額:
+                    <span className="text-danger">{shopTotal(value)}</span>円
+                  </div>
                </td>
+             
                </tr>
            ))}
          </tbody>
