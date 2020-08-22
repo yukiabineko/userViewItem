@@ -29,7 +29,7 @@ class App extends Component{
     return(
       <div>
       <BrowserRouter>
-        <nav className="navbar navbar-expand-lg navbar-light bg-dark">
+        <nav className="navbar navbar-expand-lg navbar-light fixed-top bg-dark mb-5">
           <a className="navbar-brand text-white font-weight-bold mr-3" href="#">入荷商品管理</a>
           <ul className="navbar-nav mr-auto">
             <li className="nav-item mr-3">
@@ -57,8 +57,8 @@ class App extends Component{
           </li>
           </ul>
         </nav>
-        
-        <div>
+        <br/><br/>
+        <div className="mt-5">
         <Route exact path='/' component={ItemMain} />
         <Route  path='/orders' component={QuestionMain} />
         <Route  path='/login' component={Login} />

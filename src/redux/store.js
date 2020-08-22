@@ -9,7 +9,7 @@ const init_data ={
   searchItem: [],  
   userId: null,        //ログインユーザーid
   shop: null,          //ログイン店舗名
-  cookieUse: false     //ログイン時クッキー使用
+ 
  
 }
 const itemsReducer =(state = init_data, action)=>{
@@ -54,7 +54,7 @@ const addReducer =(state, action) =>{
     searchItem: [],
     userId: state.userId,
     shop: state.shop,
-    cookieUse: state.cookieUse
+   
   }
 }
 /*商品登録用*/
@@ -79,7 +79,8 @@ const orderingChangeReducer = (state, action)=>{
     searchItem: [],
     userId: state.userId,
     shop: state.shop,
-    cookieUse: state.cookieUse
+   
+    
   }
 }
 /*数値変更メソット*/
@@ -95,6 +96,7 @@ export const orderingChange =(index, number)=>{
 /******************************************************** */
 const cookieReducer =(state, action)=>{
   let newData = state.items.slice();
+
   newData.splice(0);
   for(let i=0; i<action.orders.length; i++){
     newData.push({
@@ -114,7 +116,8 @@ const cookieReducer =(state, action)=>{
     serchItem: state.searchItem,
     userId: action.users.id,
     shop: action.users.shop,
-    cookieUse: state.cookieUse
+    
+    
   }
 }
 export const cookieData =(users,orders)=>{
@@ -131,7 +134,8 @@ const resetcookieReducer =(state, action)=>{
     serchItem: state.searchItem,
     userId: null,
     shop: null,
-    cookieUse: false
+   
+    
   }
 }
 export const resetcookie =()=>{
@@ -142,6 +146,7 @@ export const resetcookie =()=>{
 /*********************************************************************** */
 /*各ユーザーオーダーレデユサー*/
 const orderData =(state, action)=>{
+ 
   let newData = state.items.slice();
   newData.splice(0);
   for(let i=0; i<action.jsonData.length; i++){
@@ -161,7 +166,8 @@ const orderData =(state, action)=>{
     serchItem: state.searchItem,
     userId: action.jsonData[0].user_id,
     shop: state.shop,
-    cookieUse: true
+   
+    
   }
 
 
