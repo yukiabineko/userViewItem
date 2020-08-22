@@ -16,9 +16,18 @@ const  Login =(props)=>{
       props.history.push('/');
     }
   }
+  /*cookieリセット*/
+  const cookieReset =()=>{
+    let cookieKey = document.cookie.split('=')[0];
+    let today = todayView();
+   if(cookieKey != today){
+    document.cookie = "" + cookieKey +"=;max-age=0";
+   }
+  }
   /*ステートセット*/
 
-  const st = useState(redirectFunc);
+  useState(redirectFunc);
+  useState(cookieReset);
   const[state, setState] = useState({
     email: '',
     password: ''

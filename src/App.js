@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter, Link, Route } from 'react-router-dom';
 import ItemMain from './item/Main';
-import QuestionMain from './question/Main';
+import QuestionMain from './orders/Main';
 import Login from './login';
 import { connect } from 'react-redux';
 import {cookieParse} from './cookieData';
@@ -36,7 +36,7 @@ class App extends Component{
               <Link to='/' className="text-info font-weight-bold">商品チェック</Link>
             </li>
             <li className="nav-item text-light">
-              <Link to='/question' className="text-info font-weight-bold">問い合わせ</Link>
+              <Link to='/orders' className="text-info font-weight-bold">問い合わせ</Link>
             </li>
           </ul>
           <ul className="navbar-nav">　
@@ -60,7 +60,7 @@ class App extends Component{
         
         <div>
         <Route exact path='/' component={ItemMain} />
-        <Route  path='/question' component={QuestionMain} />
+        <Route  path='/orders' component={QuestionMain} />
         <Route  path='/login' component={Login} />
         </div>
        
