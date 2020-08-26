@@ -16,7 +16,7 @@ const  View =(props)=>{
        : 
       <div>
          <div className="text-center">
-          <p className="text-center font-weight-bold">
+          <p className="text-center font-weight-bold mt-3">
             {itemData.name}&emsp;
             <span className="text-danger">
               {itemData.price}

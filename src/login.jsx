@@ -58,13 +58,13 @@ const  Login =(props)=>{
   /*ログイン認証、COOKIEセット*/
 
   const doSubmit =(event)=>{
-    
     event.preventDefault();
+    let today = todayView();
     let data = new URLSearchParams();
 
     data.append('email', state.email);
     data.append('password', state.password);
-   
+    data.append('day', today);
   
     axios.post("https://yukiabineko.sakura.ne.jp/items/userOrder.php", data).then((response)=>{
          let today = todayView();

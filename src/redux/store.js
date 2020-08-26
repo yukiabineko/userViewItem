@@ -45,7 +45,8 @@ const addReducer =(state, action) =>{
       price: action.array[i].price,
       memo: null,
       info: action.array[i].info,
-      ordering: 0
+      ordering: 0,
+      day: action.array[i].day
     });
   }
   return{
@@ -106,7 +107,8 @@ const cookieReducer =(state, action)=>{
       price: action.orders[i].price,
       memo: action.orders[i].memo,
       info: action.orders[i].info,
-      ordering: action.orders[i].num
+      ordering: action.orders[i].num,
+      day: action.orders[i].day
     });
   }
 
@@ -157,7 +159,8 @@ const orderData =(state, action)=>{
       price: action.jsonData[i].price,
       memo: action.jsonData[i].memo,
       info: action.jsonData[i].info,
-      ordering: action.jsonData[i].num
+      ordering: action.jsonData[i].num,
+      day: action.jsonData[i].day
     });
   }
   return{

@@ -54,39 +54,44 @@ const  Main =()=>{
             
              <tr>
                <th className="bg-dark text-center text-white align-middle" style={nameheader}>{Object.keys(value)[0]}</th>
-               <td>
-                  <table className="table W-100 font-weight-bold">
-                    <tr>
-                      <th className="bg-light font-weight-bold align-middle" style={itemName}>商品名</th>
-                      <th className="bg-light font-weight-bold align-middle" >価格</th>
-                      <th className="bg-light font-weight-bold align-middle" >発注数</th>
-                      <th className="bg-light font-weight-bold align-middle text-center" style={total}>合計金額</th>
-                      <th className="bg-light font-weight-bold align-middle" style={confirm} >認証</th>
-                    </tr>
-                      {value[Object.keys(value)[0]].map((data)=>(
-                      <tr> 
-                        <td>{data.name}</td>
-                        <td className="text-right text-danger align-middle">{data.price}</td>
-                        <td className="text-right text-primary align-middle">{data.num}</td>
-                        <td className="text-right text-danger align-middle">{Number(data.price) * Number(data.num)}</td>
-                        <td className="text-center align-middle">
-                          {data.num >0?
-                            data.confirm === '0'? 
-                              <label className="bg-primary text-white p-2">申請中</label>
-                               : 
-                              <label className="bg-danger text-white p-2">承認済み</label>
-                             : 
-                            ''
-                          }
-                        </td>
-                      </tr>
-                      ))}
-                  </table>
-                  <div className="font-weight-bold">合計発注金額:
-                    <span className="text-danger">{shopTotal(value)}</span>円
-                  </div>
-               </td>
-             
+               {value[Object.keys(value)[0]].length === 0 ?  /*各店オーダーがあるかどうか？*/
+                  <td>
+                    <div className="p-5 bg-light text-center font-weight-bold">まだオーダーがありません。</div>
+                  </td>
+                 : 
+                 <td>
+                 <table className="table W-100 font-weight-bold">
+                   <tr>
+                     <th className="bg-light font-weight-bold align-middle" style={itemName}>商品名</th>
+                     <th className="bg-light font-weight-bold align-middle" >価格</th>
+                     <th className="bg-light font-weight-bold align-middle" >発注数</th>
+                     <th className="bg-light font-weight-bold align-middle text-center" style={total}>合計金額</th>
+                     <th className="bg-light font-weight-bold align-middle" style={confirm} >認証</th>
+                   </tr>
+                     {value[Object.keys(value)[0]].map((data)=>(
+                     <tr> 
+                       <td>{data.name}</td>
+                       <td className="text-right text-danger align-middle">{data.price}</td>
+                       <td className="text-right text-primary align-middle">{data.num}</td>
+                       <td className="text-right text-danger align-middle">{Number(data.price) * Number(data.num)}</td>
+                       <td className="text-center align-middle">
+                         {data.num >0?
+                           data.confirm === '0'? 
+                             <label className="bg-primary text-white p-2">申請中</label>
+                              : 
+                             <label className="bg-danger text-white p-2">承認済み</label>
+                            : 
+                           ''
+                         }
+                       </td>
+                     </tr>
+                     ))}
+                 </table>
+                 <div className="font-weight-bold">合計発注金額:
+                   <span className="text-danger">{shopTotal(value)}</span>円
+                 </div>
+              </td>
+               }
                </tr>
            ))}
          </tbody>

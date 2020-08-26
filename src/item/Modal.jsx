@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import './Item.css';
 import axios from 'axios';
-import { orderingChange,orderSend } from '../redux/store';
+import { orderSend } from '../redux/store';
 import { todayView } from '../getDay';
 import { withRouter } from 'react-router';
 import {cookieParse} from '../cookieData';
