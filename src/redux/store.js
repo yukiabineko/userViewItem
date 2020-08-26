@@ -53,8 +53,8 @@ const addReducer =(state, action) =>{
     items: newItems,
     mode: 'default',
     searchItem: [],
-    userId: state.userId,
-    shop: state.shop,
+    userId: null,
+    shop: null
    
   }
 }

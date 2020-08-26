@@ -9,7 +9,7 @@ import Modal from './Modal';
 const  Main =(props)=>{
     
   const setUp =()=>{
-    if(!document.cookie){
+    if(!document.cookie || props.userId === null){
       axios("https://yukiabineko.sakura.ne.jp/items/viewJson.php").then((response)=>{
       if(response.data){
         let action = addItemArray(response.data);
