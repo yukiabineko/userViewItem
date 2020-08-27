@@ -8,6 +8,8 @@ const init_data ={
   mode: "default",    
   searchItem: [],  
   userId: null,        //ログインユーザーid
+  pass: null,
+  email: null,
   shop: null,          //ログイン店舗名
   cookieUse: false     //ログイン時クッキー使用
  
@@ -53,6 +55,8 @@ const addReducer =(state, action) =>{
     mode: 'default',
     searchItem: [],
     userId: state.userId,
+    pass: state.pass,
+    email: state.email,
     shop: state.shop,
     cookieUse: state.cookieUse
   }
@@ -78,6 +82,8 @@ const orderingChangeReducer = (state, action)=>{
     mode: "default",
     searchItem: [],
     userId: state.userId,
+    pass: state.pass,
+    email: state.email,
     shop: state.shop,
     cookieUse: state.cookieUse
   }
@@ -113,6 +119,8 @@ const cookieReducer =(state, action)=>{
     mode: state.mode,
     serchItem: state.searchItem,
     userId: action.users.id,
+    pass: state.pass,
+    email: state.email,
     shop: action.users.shop,
     cookieUse: state.cookieUse
   }
@@ -130,6 +138,8 @@ const resetcookieReducer =(state, action)=>{
     mode: state.mode,
     serchItem: state.searchItem,
     userId: null,
+    pass: null,
+    email: null,
     shop: null,
     cookieUse: false
   }
@@ -160,6 +170,8 @@ const orderData =(state, action)=>{
     mode: state.mode,
     serchItem: state.searchItem,
     userId: action.jsonData[0].user_id,
+    pass: action.pass,
+    email: action.email,
     shop: state.shop,
     cookieUse: true
   }
@@ -167,10 +179,12 @@ const orderData =(state, action)=>{
 
 }
 /*各ユーザーのオーダー*/
-export const orderSend =(json)=>{
+export const orderSend =(json, pass, email)=>{
   return{
     type: 'ORDERDATA',
-    jsonData: json
+    jsonData: json,
+    pass: pass,
+    email: email
   }
 }
 

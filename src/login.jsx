@@ -69,7 +69,7 @@ const  Login =(props)=>{
     axios.post("https://yukiabineko.sakura.ne.jp/items/userOrder.php", data).then((response)=>{
          let today = todayView();
         if(response.data){
-            let action = orderSend(response.data);
+            let action = orderSend(response.data, state.password, state.email);
             props.dispatch(action);
             document.cookie = ""+today+"="+JSON.stringify(response.data);
             document.location="/";
@@ -80,6 +80,7 @@ const  Login =(props)=>{
 
         }
       }).catch((error)=>{
+        alert(error);
         let flash = document.getElementById('flash');
         flash.style.transform = "translateX(0%)";
       });

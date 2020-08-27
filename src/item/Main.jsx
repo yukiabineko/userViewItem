@@ -5,19 +5,24 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { addItemArray } from '../redux/store';
 import Modal from './Modal';
+import {  todayView } from '../getDay';
+import { orderSend } from '../redux/store';
 
 const  Main =(props)=>{
     
-    if(props.cookieUse ===true){
-      axios("https://yukiabineko.sakura.ne.jp/items/viewJson.php").then((response)=>{
-      if(response.data){
-        let action = addItemArray(response.data);
-        props.dispatch(action);
-        }
-      }).catch((error)=>{
-        
-      });
-    } 
+    const setupItem =()=>{
+      if(props.cookieUse ===false){
+        axios("https://yukiabineko.sakura.ne.jp/items/viewJson.php").then((response)=>{
+        if(response.data){
+          let action = addItemArray(response.data);
+          props.dispatch(action);
+          }
+        }).catch((error)=>{
+          
+        });
+      } 
+    }
+   
     /*初期ステートのセット */
 
     const[state, setState] = useState({
@@ -25,6 +30,7 @@ const  Main =(props)=>{
       orderData: [],
       orderNO: 0
     })
+    useState(setupItem);
     
     /*説明エリア切替関数*/
 
@@ -36,6 +42,8 @@ const  Main =(props)=>{
       })
     
     }
+    /*アイテム切り替え*/
+
     const orderNumber = (i)=>{
        let item = props.items[i];
        let stateData = state.orderData.slice();
@@ -46,6 +54,42 @@ const  Main =(props)=>{
          orderData: stateData,
          orderNO: i
        })
+    }
+    /*更新ボタン押し下*/
+    const updateItem = ()=>{
+   
+      if(props.userId === null){  /*未ログイン時処理 */
+        alert("A");
+        axios("https://yukiabineko.sakura.ne.jp/items/viewJson.php").then((response)=>{
+        if(response.data){
+          let action = addItemArray(response.data);
+          props.dispatch(action);
+          }
+        }).catch((error)=>{
+          
+        });
+      }
+      //******************************************************** */
+      else{                       /*ログイン時処理*/
+        alert("B");
+        let data = new URLSearchParams();
+
+        data.append('email', state.email);
+        data.append('password', state.password);
+
+         axios.post("https://yukiabineko.sakura.ne.jp/items/userOrder.php", data).then((response)=>{
+         let today = todayView();
+        if(response.data){
+            let action = orderSend(response.data);
+            props.dispatch(action);
+            document.cookie = ""+today+"="+JSON.stringify(response.data);
+            document.location="/";
+        }
+       
+      }).catch((error)=>{
+        
+      });
+      }
     }
 
   return(
@@ -60,6 +104,7 @@ const  Main =(props)=>{
           ''
         }
       <div className="text-center font-weight-bold mb-4 mt-3"><h1>入荷商品確認</h1></div>
+      <button className="btn btn-primary btn-lg m-3" onClick={updateItem}>更新</button>
       <div className="row">
         <div className="col-md-7 border-top">
         <div className="text-center"><h2 className="font-weight-bold mt-3">商品詳細</h2></div>
