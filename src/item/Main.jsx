@@ -10,6 +10,7 @@ import { orderSend } from '../redux/store';
 
 const  Main =(props)=>{
     
+
     const setupItem =()=>{
       if(props.cookieUse ===false){
         axios("https://yukiabineko.sakura.ne.jp/items/viewJson.php").then((response)=>{
@@ -22,7 +23,7 @@ const  Main =(props)=>{
         });
       } 
     }
-   
+  
     /*初期ステートのセット */
 
     const[state, setState] = useState({
@@ -57,7 +58,7 @@ const  Main =(props)=>{
     }
     /*更新ボタン押し下*/
     const updateItem = ()=>{
-   
+       alert(JSON.stringify(props.items));
       if(props.userId === null){  /*未ログイン時処理 */
         alert("A");
         axios("https://yukiabineko.sakura.ne.jp/items/viewJson.php").then((response)=>{
@@ -71,24 +72,26 @@ const  Main =(props)=>{
       }
       //******************************************************** */
       else{                       /*ログイン時処理*/
-        alert("B");
+        alert("pass:"+props.pass);
+        alert("mail:"+props.email);
         let data = new URLSearchParams();
 
-        data.append('email', state.email);
-        data.append('password', state.password);
+        data.append('email', props.email);
+        data.append('password', props.password);
 
          axios.post("https://yukiabineko.sakura.ne.jp/items/userOrder.php", data).then((response)=>{
          let today = todayView();
         if(response.data){
-            let action = orderSend(response.data);
+            let action = orderSend(response.data,props.pass, props.email);
             props.dispatch(action);
             document.cookie = ""+today+"="+JSON.stringify(response.data);
-            document.location="/";
+            
         }
        
       }).catch((error)=>{
         
       });
+     
       }
     }
 

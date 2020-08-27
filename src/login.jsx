@@ -72,7 +72,7 @@ const  Login =(props)=>{
             let action = orderSend(response.data, state.password, state.email);
             props.dispatch(action);
             document.cookie = ""+today+"="+JSON.stringify(response.data);
-            document.location="/";
+            props.history.push('/');
         }
         else{
           let flash = document.getElementById('flash');

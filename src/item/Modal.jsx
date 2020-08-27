@@ -5,20 +5,23 @@ import axios from 'axios';
 import { orderSend } from '../redux/store';
 import { todayView } from '../getDay';
 import { withRouter } from 'react-router';
+import {cookieParse} from '../cookieData';
+import { cookieData } from '../redux/store';
 
 
 const  Modal =(props)=>{
   let data = props.thisitem;
   const day = todayView();
- 
+  
   const[state, setState] = useState({
-    id: data.length ===0? '' : data[0].id,
+   /* id: data.length ===0? '' : data[0].id,
     name: data.length ===0? '' : data[0].name,
     price: data.length ===0? '' : data[0].price,
     number: data.length ===0? 0 : data[0].number,
     shop: '',
     memo: data.length ===0? '' : data[0].memo,
-    day: day
+    day: day,*/
+    data: props.items
   })
   /*モーダル閉じる*/
   
@@ -28,9 +31,9 @@ const  Modal =(props)=>{
     layer.style.display ="none";
     modal.style.transform = "translateY(-150%)"
     document.getElementById('modal-form').scrollTo(0,0);
-    modal.addEventListener('transitionend',()=>{
+   /* modal.addEventListener('transitionend',()=>{
       window.location.reload();
-    })
+    })*/
     
     
   }
@@ -41,43 +44,40 @@ const  Modal =(props)=>{
     let data = new URLSearchParams();
 
     data.append('user_id', props.userId);
-    data.append('day', state.day);
-    data.append('name', state.name);
-    data.append('num',state.number);
-    data.append('memo', state.memo);
-    data.append('item_id',state.id);
-    data.append('price',state.price);
+    data.append('day', state.data[props.NO].day);
+    data.append('name', state.data[props.NO].name);
+    data.append('num',state.data[props.NO].ordering);
+    data.append('memo', state.data[props.NO].memo);
+    data.append('item_id',state.data[props.NO].id);
+    data.append('price',state.data[props.NO].price);
+
+
 
   
     axios.post('https://yukiabineko.sakura.ne.jp/items/userUpdatepost.php',data).then((response)=>{
        /* redux store変更*/
-       let today = todayView();
+      let today = todayView();
        document.cookie ="" + today+"="+JSON.stringify(response.data);
        closeModal();
       let action = orderSend(response.data);
       props.dispatch(action);
+      let datas = cookieParse();
+    
+      if(datas){
+        let action = cookieData(datas['user'],datas['order']);
+        props.dispatch(action);
+      }
      
     }).catch((error)=>{
       console.log(error);
     });
-    
+  
 
     /* redux store変更
     let action = orderingChange(props.NO, state.number);
     props.dispatch(action);*/
     
 
-    
-    setState({
-      id: props.thisitem[0].id,
-      name: props.thisitem[0].name,
-      price: '',
-      number: '',
-      shop: '',
-      memo: '',
-      day: state.day
-    })
-   
     /*document.getElementById('select').options[0].selected = true;   /*セレクト初期*/
    /* document.getElementById('modal-form').scrollTo(0,0);            /*スクロールバー初期*/
   }
@@ -86,39 +86,26 @@ const  Modal =(props)=>{
   /*パラメーター変更*/
 
   const doChange =(e)=>{
+   let newData = state.data.slice();
+   
    switch (e.target.name) {
      case 'number':
+       newData[props.NO]['ordering'] = e.target.value;
        setState({
-         id: state.id,
-         name: state.name,
-         price: state.price,
-         number: e.target.value,
-         shop: state.shop,
-         memo: state.memo,
-         day: state.day
+         data: newData
        })
        break;
     case 'shop':
-        setState({
-          id: state.id,
-          name: state.name,
-          price: state.price,
-          number: state.number,
-          shop: e.target.value,
-          memo: state.memo,
-          day: state.day
-        })
+      newData[props.NO]['shop'] = e.target.value;
+      setState({
+        data: newData
+      })
         break;
     case 'memo':
-        setState({
-          id: state.id,
-          name: state.name,
-          price: state.price,
-          number: state.number,
-          shop: state.shop,
-          memo: e.target.value,
-          day: state.day
-        })
+      newData[props.NO]['memo'] = e.target.value;
+      setState({
+        data: newData
+      })
         break;
     default:
       break;
@@ -141,10 +128,10 @@ const  Modal =(props)=>{
         <form onSubmit={doSubmit}>
           <div className="form-group">
             <label className="font-weight-bold">発注商品名:</label>
-            <span className="font-weight-bold">{data[0].name}</span>
-            <input type="hidden" name="name" value={data[0].id} />
-            <input type="hidden" name="name" value={data[0].name} />
-            <input type="hidden" name="name" value={data[0].day} />
+            <span className="font-weight-bold">{state.data[props.NO].name}</span>
+            <input type="hidden" name="name" value={state.data[props.NO].id} />
+            <input type="hidden" name="name" value={state.data[props.NO].name} />
+            <input type="hidden" name="name" value={state.data[props.NO].day} />
           </div>
 
           <div className="form-group text-left">
@@ -167,13 +154,13 @@ const  Modal =(props)=>{
               className="form-control"
                min ="1" 
                step="1" 
-               value={state.number} 
+               value={state.data[props.NO].ordering} 
                onChange={doChange} 
                required />
           </div>
           <div className="form-group text-left">
             <label className="font-weight-bold">質問</label>
-            <textarea name="memo" className="form-control" rows="4" onChange={doChange} value={state.memo}></textarea>
+            <textarea name="memo" className="form-control" rows="4" onChange={doChange} value={state.data[props.NO].memo}></textarea>
           </div>
           <div className="text-center pb-3">
             <input type="submit" value="送信" className="btn btn-primary" />

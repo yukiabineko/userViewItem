@@ -11,7 +11,7 @@ const init_data ={
   pass: null,
   email: null,
   shop: null,          //ログイン店舗名
-  cookieUse: false     //ログイン時クッキー使用
+  cookieUse:false
  
 }
 const itemsReducer =(state = init_data, action)=>{
@@ -47,7 +47,8 @@ const addReducer =(state, action) =>{
       price: action.array[i].price,
       memo: null,
       info: action.array[i].info,
-      ordering: 0
+      ordering: 0,
+      day: action.array[i].day
     });
   }
   return{
@@ -59,6 +60,7 @@ const addReducer =(state, action) =>{
     email: state.email,
     shop: state.shop,
     cookieUse: state.cookieUse
+
   }
 }
 /*商品登録用*/
@@ -86,6 +88,7 @@ const orderingChangeReducer = (state, action)=>{
     email: state.email,
     shop: state.shop,
     cookieUse: state.cookieUse
+    
   }
 }
 /*数値変更メソット*/
@@ -101,6 +104,7 @@ export const orderingChange =(index, number)=>{
 /******************************************************** */
 const cookieReducer =(state, action)=>{
   let newData = state.items.slice();
+
   newData.splice(0);
   for(let i=0; i<action.orders.length; i++){
     newData.push({
@@ -110,7 +114,8 @@ const cookieReducer =(state, action)=>{
       price: action.orders[i].price,
       memo: action.orders[i].memo,
       info: action.orders[i].info,
-      ordering: action.orders[i].num
+      ordering: action.orders[i].num,
+      day: action.orders[i].day
     });
   }
 
@@ -123,6 +128,7 @@ const cookieReducer =(state, action)=>{
     email: state.email,
     shop: action.users.shop,
     cookieUse: state.cookieUse
+    
   }
 }
 export const cookieData =(users,orders)=>{
@@ -138,10 +144,11 @@ const resetcookieReducer =(state, action)=>{
     mode: state.mode,
     serchItem: state.searchItem,
     userId: null,
-    pass: null,
-    email: null,
+    pass: state.pass,
+    email: state.email,
     shop: null,
-    cookieUse: false
+    cookieUse: state.cookieUse
+    
   }
 }
 export const resetcookie =()=>{
@@ -152,17 +159,19 @@ export const resetcookie =()=>{
 /*********************************************************************** */
 /*各ユーザーオーダーレデユサー*/
 const orderData =(state, action)=>{
+  alert(JSON.stringify(action.jsonData[1]));
   let newData = state.items.slice();
   newData.splice(0);
-  for(let i=0; i<action.jsonData.length; i++){
+  for(let i=0; i<action.jsonData[1].length; i++){
     newData.push({
-      id: action.jsonData[i].id,
-      path: action.jsonData[i].path,
-      name: action.jsonData[i].name,
-      price: action.jsonData[i].price,
-      memo: action.jsonData[i].memo,
-      info: action.jsonData[i].info,
-      ordering: action.jsonData[i].num
+      id: action.jsonData[1][i].id,
+      path: action.jsonData[1][i].path,
+      name: action.jsonData[1][i].name,
+      price: action.jsonData[1][i].price,
+      memo: action.jsonData[1][i].memo,
+      info: action.jsonData[1][i].info,
+      ordering: action.jsonData[1][i].num,
+      day: action.jsonData[1][i].day
     });
   }
   return{
@@ -173,7 +182,8 @@ const orderData =(state, action)=>{
     pass: action.pass,
     email: action.email,
     shop: state.shop,
-    cookieUse: true
+   
+    
   }
 
 
