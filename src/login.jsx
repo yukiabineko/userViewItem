@@ -60,14 +60,17 @@ const  Login =(props)=>{
   const doSubmit =(event)=>{
     
     event.preventDefault();
+    let today = todayView();
     let data = new URLSearchParams();
+
 
     data.append('email', state.email);
     data.append('password', state.password);
+    data.append('day',today);
    
   
     axios.post("https://yukiabineko.sakura.ne.jp/items/userOrder.php", data).then((response)=>{
-         let today = todayView();
+         
         if(response.data){
             let action = orderSend(response.data, state.password, state.email);
             props.dispatch(action);

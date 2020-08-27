@@ -72,15 +72,15 @@ const  Main =(props)=>{
       }
       //******************************************************** */
       else{                       /*ログイン時処理*/
-        alert("pass:"+props.pass);
-        alert("mail:"+props.email);
+        let today = todayView();
         let data = new URLSearchParams();
 
         data.append('email', props.email);
-        data.append('password', props.password);
+        data.append('password', props.pass);
+        data.append('day',today);
 
          axios.post("https://yukiabineko.sakura.ne.jp/items/userOrder.php", data).then((response)=>{
-         let today = todayView();
+        
         if(response.data){
             let action = orderSend(response.data,props.pass, props.email);
             props.dispatch(action);
