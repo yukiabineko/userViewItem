@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfoCircle, faShoppingCart, faPenAlt } from '@fortawesome/free-solid-svg-icons';
 
 const  url = "https://yukiabineko.sakura.ne.jp/items/";
 
@@ -64,15 +66,24 @@ const  List =(props)=>{
                   <p className="font-weight-bold">価格:<span className="text-danger">{value.price}</span>円</p>
                 </td>
                 <td className="border-left-0 align-middle">
-                      <button className="btn btn-primary btn-block" onClick={()=>parentSendNo(i)}>説明</button><br/>
+                      <button className="btn btn-primary btn-block font-weight-bold" onClick={()=>parentSendNo(i)}>
+                        <span className="mr-1"><FontAwesomeIcon icon={faInfoCircle} /></span>
+                        説明
+                      </button><br/>
                       {props.userId === null?
                          '' 
                          : 
                          /*編集か新規オーダーか*/
                          value.ordering >0? 
-                         <button className="btn btn-success btn-block" onClick={()=>modalOpen(i)}>修正</button>  
+                         <button className="btn btn-success btn-block font-weght-bold" onClick={()=>modalOpen(i)}>
+                            <span className="text-light mr-1"><FontAwesomeIcon icon={faPenAlt} /></span>
+                           修正
+                         </button>  
                           : 
-                          <button className="btn btn-primary btn-block" onClick={()=>modalOpen(i)}>発注</button>  
+                          <button className="btn btn-primary btn-block font-weight-bold" onClick={()=>modalOpen(i)}>
+                             <span className="text-light mr-1"><FontAwesomeIcon icon={faShoppingCart} /></span>
+                            発注
+                          </button>  
                       }
                 </td>
                   {props.userId === null? 

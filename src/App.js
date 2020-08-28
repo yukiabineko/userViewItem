@@ -6,22 +6,20 @@ import ItemMain from './item/Main';
 import QuestionMain from './orders/Main';
 import Login from './login';
 import { connect } from 'react-redux';
-import {cookieParse} from './cookieData';
-import { cookieData, resetcookie, addItemArray} from './redux/store';
+import {  resetcookie, addItemArray} from './redux/store';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTruck, faClipboardCheck, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import {  todayView } from './getDay';
 
 class App extends Component{
   constructor(props){
     super(props);
-    let datas = cookieParse();
     
-    if(datas){
-      let action = cookieData(datas['user'],datas['order']);
-      props.dispatch(action);
-    }
     
   }
   logout =() =>{
+    let today = todayView();
    /*ログアウトによりURLサイド読み込みreduxセット*/
    axios("https://yukiabineko.sakura.ne.jp/items/viewJson.php").then((response)=>{
       if(response.data){
@@ -32,7 +30,7 @@ class App extends Component{
         
       });
 
-   /* document.cookie = "user=;max-age=0"*/
+   document.cookie = "" + today + "=;max-age=0";
     let action = resetcookie();
     this.props.dispatch(action);
   }
@@ -41,13 +39,22 @@ class App extends Component{
       <div>
       <BrowserRouter>
         <nav className="navbar navbar-expand-lg navbar-light fixed-top bg-dark mb-5">
-          <a className="navbar-brand text-white font-weight-bold mr-3" href="#">入荷商品管理</a>
+          <a className="navbar-brand text-white font-weight-bold mr-5" href="#">
+            <span className="text-light"><FontAwesomeIcon icon={faTruck} /></span>
+             入荷商品管理
+          </a>
           <ul className="navbar-nav mr-auto">
             <li className="nav-item mr-3">
-              <Link to='/' className="text-info font-weight-bold">商品チェック</Link>
+              <Link to='/' className="font-weight-bold text-light">
+               <span className="text-light mr-1"><FontAwesomeIcon icon={faClipboardCheck} /></span>
+                商品チェック
+              </Link>
             </li>
             <li className="nav-item text-light">
-              <Link to='/orders' className="text-info font-weight-bold">発注状況</Link>
+              <Link to='/orders' className="text-light font-weight-bold">
+              <span className="text-light mr-1"><FontAwesomeIcon icon={faShoppingCart} /></span>
+                発注状況
+              </Link>
             </li>
           </ul>
           <ul className="navbar-nav">　

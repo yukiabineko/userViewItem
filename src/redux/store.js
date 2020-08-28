@@ -11,7 +11,7 @@ const init_data ={
   pass: null,
   email: null,
   shop: null,          //ログイン店舗名
-  cookieUse:false
+  cookieUse:true
  
 }
 const itemsReducer =(state = init_data, action)=>{
@@ -181,7 +181,7 @@ const orderData =(state, action)=>{
     userId: action.jsonData[0].user_id,
     pass: action.pass,
     email: action.email,
-    shop: state.shop,
+    shop: action.jsonData[0].shop
    
     
   }

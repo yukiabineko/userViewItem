@@ -3,16 +3,20 @@ import List from './List';
 import View from './View';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { addItemArray } from '../redux/store';
+import { cookieData, addItemArray } from '../redux/store';
 import Modal from './Modal';
 import {  todayView } from '../getDay';
+import {cookieParse} from '../cookieData';
 import { orderSend } from '../redux/store';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
 const  Main =(props)=>{
     
 
     const setupItem =()=>{
-      if(props.cookieUse ===false){
+      if(props.cookieUse ===false || !document.cookie){
         axios("https://yukiabineko.sakura.ne.jp/items/viewJson.php").then((response)=>{
         if(response.data){
           let action = addItemArray(response.data);
@@ -21,7 +25,16 @@ const  Main =(props)=>{
         }).catch((error)=>{
           
         });
-      } 
+      }
+      else if(props.cookieUse){
+        let datas = cookieParse();
+    
+        if(datas){
+          let action = cookieData(datas['user'],datas['order']);
+          props.dispatch(action);
+        }
+     }
+
     }
   
     /*初期ステートのセット */
@@ -58,9 +71,9 @@ const  Main =(props)=>{
     }
     /*更新ボタン押し下*/
     const updateItem = ()=>{
-       alert(JSON.stringify(props.items));
+       /*alert(JSON.stringify(props.items));*/
       if(props.userId === null){  /*未ログイン時処理 */
-        alert("A");
+        
         axios("https://yukiabineko.sakura.ne.jp/items/viewJson.php").then((response)=>{
         if(response.data){
           let action = addItemArray(response.data);
@@ -107,7 +120,10 @@ const  Main =(props)=>{
           ''
         }
       <div className="text-center font-weight-bold mb-4 mt-3"><h1>入荷商品確認</h1></div>
-      <button className="btn btn-primary btn-lg m-3" onClick={updateItem}>更新</button>
+      <button className="btn btn-primary btn-lg m-3 font-weight-bold" onClick={updateItem}>
+      <span className="text-light mr-1"><FontAwesomeIcon icon={faSyncAlt} /></span>
+        更新
+      </button>
       <div className="row">
         <div className="col-md-7 border-top">
         <div className="text-center"><h2 className="font-weight-bold mt-3">商品詳細</h2></div>
