@@ -3,10 +3,9 @@ import List from './List';
 import View from './View';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { cookieData, addItemArray } from '../redux/store';
+import { storageData, addItemArray } from '../redux/store';
 import Modal from './Modal';
 import {  todayView } from '../getDay';
-import {cookieParse} from '../cookieData';
 import { orderSend } from '../redux/store';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,7 +15,10 @@ const  Main =(props)=>{
     
 
     const setupItem =()=>{
-      if(props.cookieUse ===false || !document.cookie){
+      let json = localStorage.getItem('shopData');
+      let storage = JSON.parse(json);
+      if(props.storageUse ===false || !json){
+        
         axios("https://yukiabineko.sakura.ne.jp/items/viewJson.php").then((response)=>{
         if(response.data){
           let action = addItemArray(response.data);
@@ -26,11 +28,11 @@ const  Main =(props)=>{
           
         });
       }
-      else if(props.cookieUse){
-        let datas = cookieParse();
-    
-        if(datas){
-          let action = cookieData(datas['user'],datas['order']);
+      else if(props.storageUse){
+      
+        if(storage){
+          let datas = storage[todayView()];
+          let action = storageData(datas[0],datas[1]);
           props.dispatch(action);
         }
      }
@@ -71,7 +73,7 @@ const  Main =(props)=>{
     }
     /*更新ボタン押し下*/
     const updateItem = ()=>{
-       /*alert(JSON.stringify(props.items));*/
+      /*alert(props.userId);*/
       if(props.userId === null){  /*未ログイン時処理 */
         
         axios("https://yukiabineko.sakura.ne.jp/items/viewJson.php").then((response)=>{
@@ -84,7 +86,8 @@ const  Main =(props)=>{
         });
       }
       //******************************************************** */
-      else{                       /*ログイン時処理*/
+      else{    
+        /*ログイン時処理*/
         let today = todayView();
         let data = new URLSearchParams();
 
@@ -97,7 +100,9 @@ const  Main =(props)=>{
         if(response.data){
             let action = orderSend(response.data,props.pass, props.email);
             props.dispatch(action);
-            document.cookie = ""+today+"="+JSON.stringify(response.data);
+            let day = {};
+            day[todayView()] = response.data;
+            localStorage.setItem('shopData', JSON.stringify(day));
             
         }
        
@@ -121,8 +126,8 @@ const  Main =(props)=>{
         }
       <div className="text-center font-weight-bold mb-4 mt-3"><h1>入荷商品確認</h1></div>
       <button className="btn btn-primary btn-lg m-3 font-weight-bold" onClick={updateItem}>
-      <span className="text-light mr-1"><FontAwesomeIcon icon={faSyncAlt} /></span>
-        更新
+        <span className="text-light mr-1"><FontAwesomeIcon icon={faSyncAlt} /></span>
+          更新
       </button>
       <div className="row">
         <div className="col-md-7 border-top">

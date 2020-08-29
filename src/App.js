@@ -20,7 +20,7 @@ class App extends Component{
   }
   logout =() =>{
     let today = todayView();
-   /*ログアウトによりURLサイド読み込みreduxセット*/
+   /*ログアウトによりURL再度読み込みreduxセット*/
    axios("https://yukiabineko.sakura.ne.jp/items/viewJson.php").then((response)=>{
       if(response.data){
         let action = addItemArray(response.data);
@@ -29,8 +29,8 @@ class App extends Component{
       }).catch((error)=>{
         
       });
-
-   document.cookie = "" + today + "=;max-age=0";
+   //ストレージ削除
+    localStorage.removeItem('shopData');
     let action = resetcookie();
     this.props.dispatch(action);
   }

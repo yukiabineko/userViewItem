@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useState } from 'react';
 import axios from 'axios';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 const nameheader={width:'20%'}
@@ -41,10 +42,17 @@ const  Main =()=>{
     return total;
     
   }
+  const orderUpdate =()=>{
+
+  }
 
   return(
     <div>
      <div className="text-center mt-4 mb-5 font-weight-bold"><h1>発注状況確認</h1></div>
+     <button className="btn btn-primary btn-lg m-3 font-weight-bold" onClick={orderUpdate}>
+        <span className="text-light mr-1"><FontAwesomeIcon icon={faSyncAlt} /></span>
+          更新
+      </button>
      <div className="row">
        <div className="col-md-10 offset-1">
         {/*テーブル表示*/}

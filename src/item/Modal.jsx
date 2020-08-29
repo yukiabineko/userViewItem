@@ -5,13 +5,11 @@ import axios from 'axios';
 import { orderSend } from '../redux/store';
 import { todayView } from '../getDay';
 import { withRouter } from 'react-router';
-import {cookieParse} from '../cookieData';
-import { cookieData } from '../redux/store';
+import { storageData } from '../redux/store';
 
 
 const  Modal =(props)=>{
   let data = props.thisitem;
-  const day = todayView();
   
   const[state, setState] = useState({
    /* id: data.length ===0? '' : data[0].id,
@@ -57,14 +55,19 @@ const  Modal =(props)=>{
     axios.post('https://yukiabineko.sakura.ne.jp/items/userUpdatepost.php',data).then((response)=>{
        /* redux store変更*/
       let today = todayView();
-       document.cookie ="" + today+"="+JSON.stringify(response.data);
-       closeModal();
+      let datas = JSON.parse(localStorage.getItem('shopData'))[today];
+      let orders = datas[1];
+
+      //ストレージデータ差し替え
+      orders.splice(0);
+      orders.push(response.data);
+
+      closeModal();
       let action = orderSend(response.data);
       props.dispatch(action);
-      let datas = cookieParse();
     
       if(datas){
-        let action = cookieData(datas['user'],datas['order']);
+        let action = storageData(datas['user'],datas['order']);
         props.dispatch(action);
       }
      
@@ -81,7 +84,7 @@ const  Modal =(props)=>{
     /*document.getElementById('select').options[0].selected = true;   /*セレクト初期*/
    /* document.getElementById('modal-form').scrollTo(0,0);            /*スクロールバー初期*/
   }
-
+  
 
   /*パラメーター変更*/
 

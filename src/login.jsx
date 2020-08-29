@@ -17,17 +17,20 @@ const  Login =(props)=>{
     }
   }
   /*cookieリセット*/
-  const cookieReset =()=>{
-    let cookieKey = document.cookie.split('=')[0];
-    let today = todayView();
-   if(cookieKey != today){
-    document.cookie = "" + cookieKey +"=;max-age=0";
-   }
+  const storageReset =()=>{
+    let storage = localStorage.getItem('shopData');
+    if(storage){
+      let today = todayView();            　　　　　　　/*本日*/
+      let key = Object.keys(JSON.parse(storage));     /*保存データkey*/
+      if(today != key){                               /*本日でないキーの場合削除*/
+        localStorage.removeItem(key);
+      }
+    }
   }
   /*ステートセット*/
 
   useState(redirectFunc);
-  useState(cookieReset);
+  useState(storageReset);
   const[state, setState] = useState({
     email: '',
     password: ''
@@ -74,7 +77,9 @@ const  Login =(props)=>{
         if(response.data){
             let action = orderSend(response.data, state.password, state.email);
             props.dispatch(action);
-            document.cookie = ""+today+"="+JSON.stringify(response.data);
+            let day = {};
+            day[todayView()] = response.data;
+            localStorage.setItem('shopData', JSON.stringify(day));
             props.history.push('/');
         }
         else{

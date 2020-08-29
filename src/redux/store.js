@@ -11,7 +11,7 @@ const init_data ={
   pass: null,
   email: null,
   shop: null,          //ログイン店舗名
-  cookieUse:true
+  storageUse:true
  
 }
 const itemsReducer =(state = init_data, action)=>{
@@ -22,7 +22,7 @@ const itemsReducer =(state = init_data, action)=>{
       return orderingChangeReducer(state, action);  
     
     case "COOKIE":
-      return cookieReducer(state, action); 
+      return storageReducer(state, action); 
     case "COOKIEDEL":
       return resetcookieReducer(state, action); 
     case "ORDERDATA":
@@ -59,7 +59,7 @@ const addReducer =(state, action) =>{
     pass: state.pass,
     email: state.email,
     shop: state.shop,
-    cookieUse: state.cookieUse
+    storageUse: state.storageUse
 
   }
 }
@@ -87,7 +87,7 @@ const orderingChangeReducer = (state, action)=>{
     pass: state.pass,
     email: state.email,
     shop: state.shop,
-    cookieUse: state.cookieUse
+    storageUse: state.storageUse
     
   }
 }
@@ -102,8 +102,9 @@ export const orderingChange =(index, number)=>{
 }
 
 /******************************************************** */
-const cookieReducer =(state, action)=>{
+const storageReducer =(state, action)=>{
   let newData = state.items.slice();
+  
 
   newData.splice(0);
   for(let i=0; i<action.orders.length; i++){
@@ -127,11 +128,11 @@ const cookieReducer =(state, action)=>{
     pass: state.pass,
     email: state.email,
     shop: action.users.shop,
-    cookieUse: state.cookieUse
+    storageUse: state.storageUse
     
   }
 }
-export const cookieData =(users,orders)=>{
+export const storageData =(users,orders)=>{
   return{
     type: 'COOKIE',
     users: users,
@@ -147,8 +148,7 @@ const resetcookieReducer =(state, action)=>{
     pass: state.pass,
     email: state.email,
     shop: null,
-    cookieUse: state.cookieUse
-    
+    storageUse: false
   }
 }
 export const resetcookie =()=>{
@@ -159,7 +159,7 @@ export const resetcookie =()=>{
 /*********************************************************************** */
 /*各ユーザーオーダーレデユサー*/
 const orderData =(state, action)=>{
-  
+  alert(JSON.stringify(action.jsonData));
   let newData = state.items.slice();
   newData.splice(0);
   for(let i=0; i<action.jsonData[1].length; i++){
@@ -178,10 +178,11 @@ const orderData =(state, action)=>{
     items: newData,
     mode: state.mode,
     serchItem: state.searchItem,
-    userId: action.jsonData[0].user_id,
+    userId: action.jsonData[0].id,
     pass: action.pass,
     email: action.email,
-    shop: action.jsonData[0].shop
+    shop: action.jsonData[0].shop,
+    storageUse: true
    
     
   }
