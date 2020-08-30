@@ -43,18 +43,19 @@ const  Main =()=>{
     
   }
   const orderUpdate =()=>{
-
+    getOrderJson();
+    alert('更新しました。');
   }
 
   return(
     <div>
      <div className="text-center mt-4 mb-5 font-weight-bold"><h1>発注状況確認</h1></div>
-     <button className="btn btn-primary btn-lg m-3 font-weight-bold" onClick={orderUpdate}>
-        <span className="text-light mr-1"><FontAwesomeIcon icon={faSyncAlt} /></span>
-          更新
-      </button>
      <div className="row">
        <div className="col-md-10 offset-1">
+        <button className="btn btn-primary btn-lg  mb-2 font-weight-bold" onClick={orderUpdate}>
+          <span className="text-light mr-1"><FontAwesomeIcon icon={faSyncAlt} /></span>
+            更新
+        </button>
         {/*テーブル表示*/}
         <table className="table table-bordered">
          <tbody>

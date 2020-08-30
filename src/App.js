@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
 import './App.css';
 import { BrowserRouter, Link, Route } from 'react-router-dom';
 import ItemMain from './item/Main';
@@ -38,11 +39,15 @@ class App extends Component{
     return(
       <div>
       <BrowserRouter>
-        <nav className="navbar navbar-expand-lg navbar-light fixed-top bg-dark mb-5">
+        <nav className="navbar navbar-expand-md navbar-light fixed-top bg-dark mb-5">
           <a className="navbar-brand text-white font-weight-bold mr-5" href="#">
             <span className="text-light"><FontAwesomeIcon icon={faTruck} /></span>
              入荷商品管理
           </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+         </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item mr-3">
               <Link to='/' className="font-weight-bold text-light">
@@ -57,6 +62,7 @@ class App extends Component{
               </Link>
             </li>
           </ul>
+          
           <ul className="navbar-nav">　
         　{this.props.userId === null? 
           '' : 
@@ -74,6 +80,7 @@ class App extends Component{
            
           </li>
           </ul>
+          </div>
         </nav>
         <br/><br/>
         <div className="mt-5">

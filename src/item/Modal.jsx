@@ -129,7 +129,7 @@ const  Modal =(props)=>{
       <div className="text-center border pl-5 pr-5 bg-light modal-form" id="modal-form">
        
         <form onSubmit={doSubmit}>
-          <div className="form-group">
+          <div className="form-group mt-3 mb-3">
             <label className="font-weight-bold">発注商品名:</label>
             <span className="font-weight-bold">{state.data[props.NO].name}</span>
             <input type="hidden" name="name" value={state.data[props.NO].id} />
@@ -137,9 +137,11 @@ const  Modal =(props)=>{
             <input type="hidden" name="name" value={state.data[props.NO].day} />
           </div>
 
-          <div className="form-group text-left">
-            <label className="font-weight-bold">店舗名</label>
-            <select id="select" name="shop" className="form-control" onChange={doChange}>
+          <div className="form-group">
+            <label className="font-weight-bold">店舗名:</label>
+            <label className="font-weight-bold">{props.shop}</label>
+            <input type="hidden" name="shop" value={props.shop} />
+           {/* <select id="select" name="shop" className="form-control" onChange={doChange}>
               <option disabled="disabled">--店舗選択--</option>
               <option value="甲府店">甲府店</option>
               <option value="昭和店">昭和店</option>
@@ -147,6 +149,7 @@ const  Modal =(props)=>{
               <option value="石和店">石和店</option>
               <option value="塩山店">塩山店</option>
             </select>
+          */}
           </div>
 
           <div className="form-group text-left">

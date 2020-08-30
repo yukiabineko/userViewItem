@@ -159,7 +159,7 @@ export const resetcookie =()=>{
 /*********************************************************************** */
 /*各ユーザーオーダーレデユサー*/
 const orderData =(state, action)=>{
-  alert(JSON.stringify(action.jsonData));
+  /*alert(JSON.stringify(action.jsonData));*/
   let newData = state.items.slice();
   newData.splice(0);
   for(let i=0; i<action.jsonData[1].length; i++){
