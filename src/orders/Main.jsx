@@ -2,14 +2,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useState } from 'react';
 import axios from 'axios';
+import '../item/Item.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
+import { circularLoading }  from '@yami-beta/react-circular-loading';
+
+//プログレスステータス
+const CircularLoading = circularLoading({
+  num: 6,
+  distance: 1,
+  dotSize: 0.5,
+
+});
 
 
 const nameheader={width:'20%'}
-const td ={width: '100%'}
 const itemName ={width:'40%'}
-const price ={width:'15%'}
 const total ={width:'20%'}
 const confirm ={width:'20%'}
 
@@ -17,17 +25,25 @@ const  Main =()=>{
   
   /*ステートデータセット*/
   const[state, setState] = useState({
-    data: []
+    data: [],
+    progress: true
   })
   const getOrderJson =()=>{
     let newData = state.data.slice();
     newData.splice(0);
     axios('https://yukiabineko.sakura.ne.jp/items/orderlist.php').then((response)=>{
-      setState({
-        data: response.data
-      })
+      if(response !=null){
+        setState({
+          data: response.data,
+          progress: false
+        })
+      }
     }).catch((err)=>{
-      console.log(err)
+      console.log(err);
+      setState({
+        data: state.data,
+        progress: false
+      })
     });
   }
   useState(getOrderJson);
@@ -37,14 +53,17 @@ const  Main =()=>{
     let total = 0;
     let objs = value[Object.keys(value)];
     for(let i=0; i<objs.length; i++){
-      total += ( Number(objs[i].price) * Number(objs[i].num));
+      total += ( Number(objs[i].item_price) * Number(objs[i].num));
     }
     return total;
     
   }
   const orderUpdate =()=>{
+    setState({
+      data: state.data,
+      progress: true
+    })
     getOrderJson();
-    alert('更新しました。');
   }
 
   return(
@@ -56,8 +75,24 @@ const  Main =()=>{
           <span className="text-light mr-1"><FontAwesomeIcon icon={faSyncAlt} /></span>
             更新
         </button>
+        {/* プログレス */}
+     
+        {state.progress ===true? 
+          <div id="progress">
+            <p　className="mt-3 font-weight-bold">しばらくお待ちください。</p>
+            <div className="text-center">
+            <CircularLoading />
+            </div>
+           
+          </div>
+        : 
+        ''
+        }
         {/*テーブル表示*/}
-        <table className="table table-bordered">
+        {state.data.length ===0? 
+          <div className="p-5 bg-light text-center">データがありません。</div>
+         : 
+         <table className="table table-bordered">
          <tbody>
            {state.data.map((value,i)=>(
             
@@ -79,10 +114,10 @@ const  Main =()=>{
                    </tr>
                      {value[Object.keys(value)[0]].map((data)=>(
                      <tr> 
-                       <td>{data.name}</td>
-                       <td className="text-right text-danger align-middle">{data.price}</td>
+                       <td>{data.item_name}</td>
+                       <td className="text-right text-danger align-middle">{data.item_price}</td>
                        <td className="text-right text-primary align-middle">{data.num}</td>
-                       <td className="text-right text-danger align-middle">{Number(data.price) * Number(data.num)}</td>
+                       <td className="text-right text-danger align-middle">{Number(data.item_price) * Number(data.num)}</td>
                        <td className="text-center align-middle">
                          {data.num >0?
                            data.confirm === '0'? 
@@ -105,7 +140,8 @@ const  Main =()=>{
            ))}
          </tbody>
         </table>
-          {/*/テーブル表示*/}
+        }
+       
        </div>
      </div>
     </div>

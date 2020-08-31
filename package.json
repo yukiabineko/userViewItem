@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@yami-beta/react-circular-loading": "^3.0.0",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.2",
     "jquery": "^3.5.1",
@@ -21,6 +22,7 @@
     "react-script": "^2.0.5",
     "react-scripts": "^3.4.3",
     "redux": "^4.0.5",
+    "styled-components": "^5.1.1",
     "yarn": "^1.22.4"
   },
   "scripts": {

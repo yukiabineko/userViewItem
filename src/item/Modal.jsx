@@ -43,11 +43,11 @@ const  Modal =(props)=>{
 
     data.append('user_id', props.userId);
     data.append('day', state.data[props.NO].day);
-    data.append('name', state.data[props.NO].name);
+    data.append('item_name', state.data[props.NO].name);
     data.append('num',state.data[props.NO].ordering);
     data.append('memo', state.data[props.NO].memo);
     data.append('item_id',state.data[props.NO].id);
-    data.append('price',state.data[props.NO].price);
+    data.append('item_price',state.data[props.NO].price);
 
 
 

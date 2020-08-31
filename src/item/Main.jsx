@@ -7,12 +7,29 @@ import { storageData, addItemArray } from '../redux/store';
 import Modal from './Modal';
 import {  todayView } from '../getDay';
 import { orderSend } from '../redux/store';
-
+import './Item.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
+import { circularLoading }  from '@yami-beta/react-circular-loading';
+
+//プログレスステータス
+const CircularLoading = circularLoading({
+  num: 6,
+  distance: 1,
+  dotSize: 0.5,
+
+});
 
 const  Main =(props)=>{
     
+    /*初期ステートのセット */
+
+    const[state, setState] = useState({
+      listNo: 0,
+      orderData: [],
+      orderNO: 0,
+      progress: true
+    })
 
     const setupItem =()=>{
       let json = localStorage.getItem('shopData');
@@ -23,6 +40,14 @@ const  Main =(props)=>{
         if(response.data){
           let action = addItemArray(response.data);
           props.dispatch(action);
+          if(response !=null){
+            setState({
+              listNo: state.listNo,
+              orderData: state.orderData,
+              orderNO: state.orderNO,
+              progress: false
+            })
+          }
           }
         }).catch((error)=>{
           
@@ -34,18 +59,17 @@ const  Main =(props)=>{
           let datas = storage[todayView()];
           let action = storageData(datas[0],datas[1]);
           props.dispatch(action);
+         
+            setState({
+              listNo: state.listNo,
+              orderData: state.orderData,
+              orderNO: state.orderNO,
+              progress: false
+            })
         }
      }
 
     }
-  
-    /*初期ステートのセット */
-
-    const[state, setState] = useState({
-      listNo: 0,
-      orderData: [],
-      orderNO: 0
-    })
     useState(setupItem);
     
     /*説明エリア切替関数*/
@@ -54,7 +78,8 @@ const  Main =(props)=>{
       setState({
         listNo: param,
         orderData: state.orderData,
-        orderNO: state.orderNO
+        orderNO: state.orderNO,
+        progress: state.progress
       })
     
     }
@@ -68,21 +93,44 @@ const  Main =(props)=>{
        setState({
          listNo: state.listNo,
          orderData: stateData,
-         orderNO: i
+         orderNO: i,
+         progress: state.progress
        })
     }
     /*更新ボタン押し下*/
     const updateItem = ()=>{
       /*alert(props.userId);*/
+      //プログレススタート
+        setState({
+          listNo: state.listNo,
+          orderData: state.orderData,
+          orderNO: state.orderNO,
+          progress: true
+        })
+    
       if(props.userId === null){  /*未ログイン時処理 */
         
         axios("https://yukiabineko.sakura.ne.jp/items/viewJson.php").then((response)=>{
         if(response.data){
           let action = addItemArray(response.data);
           props.dispatch(action);
+          if(response !=null){
+            setState({
+              listNo: state.listNo,
+              orderData: state.orderData,
+              orderNO: state.orderNO,
+              progress: false
+            })
           }
+            
+        }
         }).catch((error)=>{
-          
+          setState({
+            listNo: state.listNo,
+            orderData: state.orderData,
+            orderNO: state.orderNO,
+            progress: false
+          })
         });
        
       }
@@ -104,15 +152,27 @@ const  Main =(props)=>{
             let day = {};
             day[todayView()] = response.data;
             localStorage.setItem('shopData', JSON.stringify(day));
-            
+            if(response !=null){
+              setState({
+                listNo: state.listNo,
+                orderData: state.orderData,
+                orderNO: state.orderNO,
+                progress: false
+              })
+            }
         }
        
       }).catch((error)=>{
-        
+        setState({
+          listNo: state.listNo,
+          orderData: state.orderData,
+          orderNO: state.orderNO,
+          progress: false
+        })
       });
      
       }
-      alert('更新しました。');
+      
     }
 
   return(
@@ -149,6 +209,19 @@ const  Main =(props)=>{
         ''}
        
       </div>
+      {/* プログレス */}
+     
+        {state.progress ===true? 
+          <div id="progress">
+            <p　className="mt-3 font-weight-bold">しばらくお待ちください。</p>
+            <div className="text-center">
+            <CircularLoading />
+            </div>
+           
+          </div>
+        : 
+        ''
+        }
       <div id="layer"></div>
     </div>
   )

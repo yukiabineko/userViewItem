@@ -39,7 +39,7 @@ class App extends Component{
     return(
       <div>
       <BrowserRouter>
-        <nav className="navbar navbar-expand-md navbar-light fixed-top bg-dark mb-5">
+        <nav className="navbar navbar-expand-md navbar-light fixed-top bg-secondary mb-5">
           <a className="navbar-brand text-white font-weight-bold mr-5" href="#">
             <span className="text-light"><FontAwesomeIcon icon={faTruck} /></span>
              入荷商品管理
@@ -50,13 +50,13 @@ class App extends Component{
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item mr-3">
-              <Link to='/' className="font-weight-bold text-light">
+              <Link to='/' className="nav-link font-weight-bold text-light">
                <span className="text-light mr-1"><FontAwesomeIcon icon={faClipboardCheck} /></span>
                 商品チェック
               </Link>
             </li>
             <li className="nav-item text-light">
-              <Link to='/orders' className="text-light font-weight-bold">
+              <Link to='/orders' className="nav-link text-light font-weight-bold">
               <span className="text-light mr-1"><FontAwesomeIcon icon={faShoppingCart} /></span>
                 発注状況
               </Link>
