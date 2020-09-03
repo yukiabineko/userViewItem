@@ -6,6 +6,8 @@ import { orderSend } from '../redux/store';
 import { todayView } from '../getDay';
 import { withRouter } from 'react-router';
 import { storageData } from '../redux/store';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 
 const  Modal =(props)=>{
@@ -118,7 +120,9 @@ const  Modal =(props)=>{
   return(
    <div>
       <div className="text-right mb-3">
-        <button onClick={closeModal}>x</button>
+        <button class="modal-close-circle bg-white" onClick={closeModal}>
+          <FontAwesomeIcon icon={faTimesCircle}/>
+        </button>
       </div> 
       {data[0].number >0? 
          <div className="text-center text-primary"><h2 className="mb-4 font-weight-bold border-bottom">注文編集</h2></div>

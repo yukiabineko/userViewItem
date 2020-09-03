@@ -45,6 +45,12 @@
  overflow-y: scroll;
  height: 80%;
 }
+.modal-close-circle{
+  border:none;
+}
+.modal-close-circle:focus {
+	outline:0;
+}
 ::-webkit-scrollbar{
   width: 10px;
 }

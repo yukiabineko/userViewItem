@@ -30,6 +30,18 @@ const  Main =(props)=>{
       orderNO: 0,
       progress: true
     })
+    /*当日外データがあり場合削除*/
+    const setUpCheckTodayData =()=>{
+      const today = todayView();
+      const json = localStorage.getItem('shopData');
+      if(json){
+        const storage = JSON.parse(json);
+        const dataKey = Object.keys(storage)[0];
+        if( today !=dataKey){
+          localStorage.removeItem('shopData');
+        }
+      }
+    }
 
     const setupItem =()=>{
       let json = localStorage.getItem('shopData');
@@ -68,8 +80,9 @@ const  Main =(props)=>{
             })
         }
      }
-
     }
+    /*初期関数ステートセット */
+    useState(setUpCheckTodayData);
     useState(setupItem);
     
     /*説明エリア切替関数*/

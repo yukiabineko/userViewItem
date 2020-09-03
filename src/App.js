@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import {  resetcookie, addItemArray} from './redux/store';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTruck, faClipboardCheck, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { faTruck, faClipboardCheck, faShoppingCart, faStore, faDoorOpen, faKey } from "@fortawesome/free-solid-svg-icons";
 import {  todayView } from './getDay';
 
 class App extends Component{
@@ -67,15 +67,24 @@ class App extends Component{
         　{this.props.userId === null? 
           '' : 
           <li className="nav-item text-white mr-3">
-            <p className="mt-2">{this.props.shop}</p>
+            <p className="mt-2 font-weight-bold">
+              <FontAwesomeIcon icon={faStore}/>
+              {this.props.shop}
+            </p>
           </li>
           } 
          
           <li className="nav-item">
             {this.props.userId === null?
-             <Link to="/login" className="nav-link text-light font-weight-bold">ログイン</Link>
+             <Link to="/login" className="nav-link text-light font-weight-bold">
+               <FontAwesomeIcon icon={faKey} />
+               ログイン
+             </Link>
             : 
-            <Link to="#" className="nav-link text-light font-weight-bold" onClick={this.logout}>ログアウト</Link>
+            <Link to="#" className="nav-link text-light font-weight-bold mr-1" onClick={this.logout}>
+              <FontAwesomeIcon icon={faDoorOpen} />
+              ログアウト
+            </Link>
             }
            
           </li>
