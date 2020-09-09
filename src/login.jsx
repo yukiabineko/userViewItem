@@ -61,7 +61,6 @@ const  Login =(props)=>{
   /*ログイン認証、COOKIEセット*/
 
   const doSubmit =(event)=>{
-    alert(state.password);
     event.preventDefault();
     let today = todayView();
     let data = new URLSearchParams();
