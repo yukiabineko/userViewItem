@@ -69,6 +69,10 @@ const  Modal =(props)=>{
       props.dispatch(action);
     
       if(datas){
+        let day = {};
+        day[todayView()] = response.data;     /*ローカルストレージ修正*/
+        localStorage.setItem('shopData', JSON.stringify(day));
+
         let action = storageData(datas['user'],datas['order']);
         props.dispatch(action);
       }

@@ -50,6 +50,7 @@ const  Main =(props)=>{
         
         axios("https://yukiabineko.sakura.ne.jp/items/viewJson.php").then((response)=>{
         if(response.data){
+         
           let action = addItemArray(response.data);
           props.dispatch(action);
           if(response !=null){
@@ -150,6 +151,7 @@ const  Main =(props)=>{
       //******************************************************** */
       else{    
         /*ログイン時処理*/
+
         let today = todayView();
         let data = new URLSearchParams();
 

@@ -35,7 +35,7 @@ const itemsReducer =(state = init_data, action)=>{
 /*商品の登録 */
 
 const addReducer =(state, action) =>{
-  
+
   let newItems = state.items.slice();
   newItems.splice(0);
 
@@ -110,6 +110,7 @@ const storageReducer =(state, action)=>{
   for(let i=0; i<action.orders.length; i++){
     newData.push({
       id: action.orders[i].id,
+      confirm: action.orders[i].confirm,
       path: action.orders[i].path,
       name: action.orders[i].name,
       price: action.orders[i].price,
@@ -165,6 +166,7 @@ const orderData =(state, action)=>{
   for(let i=0; i<action.jsonData[1].length; i++){
     newData.push({
       id: action.jsonData[1][i].id,
+      confirm: action.jsonData[1][i].confirm,
       path: action.jsonData[1][i].path,
       name: action.jsonData[1][i].name,
       price: action.jsonData[1][i].price,

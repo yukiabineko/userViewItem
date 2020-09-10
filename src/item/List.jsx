@@ -8,7 +8,6 @@ const  url = "https://yukiabineko.sakura.ne.jp/items/";
 
 
 const  List =(props)=>{
-
   const[state, setState] = useState({
     position: props.userId=== null? 'center' : 'left'
   });
@@ -75,10 +74,14 @@ const  List =(props)=>{
                          : 
                          /*編集か新規オーダーか*/
                          value.ordering >0? 
-                         <button className="btn btn-success btn-block font-weght-bold" onClick={()=>modalOpen(i)}>
+                         value.confirm === "1"?     /*承認された商品か？*/
+                          　<label className="text-primary font-weight-bold">承認済み</label>
+                           : 
+                           <button className="btn btn-success btn-block font-weght-bold" onClick={()=>modalOpen(i)}>
                             <span className="text-light mr-1"><FontAwesomeIcon icon={faPenAlt} /></span>
                            修正
                          </button>  
+                        
                           : 
                           <button className="btn btn-primary btn-block font-weight-bold" onClick={()=>modalOpen(i)}>
                              <span className="text-light mr-1"><FontAwesomeIcon icon={faShoppingCart} /></span>

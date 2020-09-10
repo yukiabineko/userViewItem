@@ -33,6 +33,7 @@ const  Main =()=>{
     newData.splice(0);
     axios('https://yukiabineko.sakura.ne.jp/items/orderlist.php').then((response)=>{
       if(response !=null){
+        
         setState({
           data: response.data,
           progress: false

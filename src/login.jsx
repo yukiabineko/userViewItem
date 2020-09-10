@@ -74,6 +74,7 @@ const  Login =(props)=>{
     axios.post("https://yukiabineko.sakura.ne.jp/items/userOrder.php", data).then((response)=>{
          
         if(response.data){
+            
             let action = orderSend(response.data, state.password, state.email);
             props.dispatch(action);
             let day = {};
