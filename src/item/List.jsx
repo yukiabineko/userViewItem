@@ -55,7 +55,8 @@ const  List =(props)=>{
                
             </tr>
           </thead> 
-          <tbody>
+          {/*--パソコン用--*/}
+          <tbody className="pc-item-list">
             {props.items.map((value, i)=>(
               <tr key={i+"item"}>
                 <td className="align-middle"><img src={url + value.path} width="60" height="60" /></td>
@@ -100,6 +101,61 @@ const  List =(props)=>{
               </tr>
             ))}
           </tbody>
+          {/*/パソコン用終了*/}
+
+          {/* スマホ用*/}
+          <tbody className="phone-item-list">
+          {props.items.map((value, i)=>(
+              <tr key={i+"item"}>
+                <td className="align-middle">
+                  <img src={url + value.path} width="60" height="60" />
+                </td>
+                  
+                
+                <td className="align-middle">
+                  <p className="font-weight-bold">商品名</p>
+                  <label className="text-primary font-weight-bold h5">{value.name}</label><p></p>
+                      <button className="btn btn-primary btn-sm font-weight-bold" onClick={()=>parentSendNo(i)}>
+                        <span className="mr-1"><FontAwesomeIcon icon={faInfoCircle} /></span>
+                        説明
+                      </button>
+                </td>
+                <td>
+                  <p className="font-weight-bold">価格</p>
+                  <label className="text-danger font-weight-bold h5">{value.price}</label><p></p>
+                  {props.userId === null?
+                         '' 
+                         : 
+                         /*編集か新規オーダーか*/
+                         value.ordering >0? 
+                         value.confirm === "1"?     /*承認された商品か？*/
+                          　<label className="text-primary font-weight-bold">承認済み</label>
+                           : 
+                           <button className="btn btn-success btn-sm font-weght-bold" onClick={()=>modalOpen(i)}>
+                            <span className="text-light mr-1"><FontAwesomeIcon icon={faPenAlt} /></span>
+                             修正
+                           </button>  
+                        
+                          : 
+                          <button className="btn btn-primary btn-block font-weight-bold" onClick={()=>modalOpen(i)}>
+                             <span className="text-light mr-1"><FontAwesomeIcon icon={faShoppingCart} /></span>
+                            発注
+                          </button>  
+                      }
+                </td>
+                  {props.userId === null? 
+                     ''
+                    : 
+                    <td className="text-center align-middle text-danger font-weight-bold" style={tdcheck}>
+                     {value.ordering}
+                    </td>
+                    }
+              </tr>   
+            ))}
+            
+          </tbody>
+           {/* /スマホ用*/}
+
         </table>
         </div>
         }

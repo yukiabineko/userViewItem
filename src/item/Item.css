@@ -52,6 +52,9 @@
 .modal-close-circle:focus {
 	outline:0;
 }
+.phone-item-list{
+  display: none;
+}
 ::-webkit-scrollbar{
   width: 10px;
 }
@@ -77,5 +80,11 @@
   }
   .modal-form{
     height: 80%;
+   }
+   .pc-item-list{
+     display: none;
+   }
+   .phone-item-list{
+    display: table-row-group;
    }
 }
