@@ -55,6 +55,9 @@
 .phone-item-list{
   display: none;
 }
+.order-table-phone{
+  display: none;
+}
 ::-webkit-scrollbar{
   width: 10px;
 }
@@ -87,4 +90,10 @@
    .phone-item-list{
     display: table-row-group;
    }
+   .order-table-pc{
+     display: none;
+   }
+   .order-table-phone{
+    display: table-row;
+  }
 }

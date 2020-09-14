@@ -93,54 +93,121 @@ const  Main =()=>{
         {state.data.length ===0? 
           <div className="p-5 bg-light text-center">データがありません。</div>
          : 
-         <table className="table table-bordered">
-         <tbody>
-           {state.data.map((value,i)=>(
-            
-             <tr>
-               <th className="bg-dark text-center text-white align-middle" style={nameheader}>{Object.keys(value)[0]}</th>
-               {value[Object.keys(value)[0]].length === 0 ?  /*各店オーダーがあるかどうか？*/
-                  <td>
-                    <div className="p-5 bg-light text-center font-weight-bold">まだオーダーがありません。</div>
+         <div>
+           {/*パソコン用テーブル*/}
+            <table className="table table-bordered order-table-pc">
+            <tbody>
+              {state.data.map((value,i)=>(
+                
+                <tr>
+                  <th className="bg-dark text-center text-white align-middle" style={nameheader}>{Object.keys(value)[0]}</th>
+                  {value[Object.keys(value)[0]].length === 0 ?  /*各店オーダーがあるかどうか？*/
+                      <td>
+                        <div className="p-5 bg-light text-center font-weight-bold">まだオーダーがありません。</div>
+                      </td>
+                    : 
+                    <td>
+                    <table className="table W-100 font-weight-bold">
+                      <tr>
+                        <th className="bg-light font-weight-bold align-middle" style={itemName}>商品名</th>
+                        <th className="bg-light font-weight-bold align-middle" >価格</th>
+                        <th className="bg-light font-weight-bold align-middle" >発注数</th>
+                        <th className="bg-light font-weight-bold align-middle text-center" style={total}>合計金額</th>
+                        <th className="bg-light font-weight-bold align-middle" style={confirm} >認証</th>
+                      </tr>
+                        {value[Object.keys(value)[0]].map((data)=>(
+                        <tr> 
+                          <td>{data.item_name}</td>
+                          <td className="text-right text-danger align-middle">{data.item_price}</td>
+                          <td className="text-right text-primary align-middle">{data.num}</td>
+                          <td className="text-right text-danger align-middle">{Number(data.item_price) * Number(data.num)}</td>
+                          <td className="text-center align-middle">
+                            {data.num >0?
+                              data.confirm === '0'? 
+                                <label className="bg-primary text-white p-2">申請中</label>
+                                  : 
+                                <label className="bg-danger text-white p-2">承認済み</label>
+                                : 
+                              ''
+                            }
+                          </td>
+                        </tr>
+                        ))}
+                    </table>
+                    <div className="font-weight-bold">合計発注金額:
+                      <span className="text-danger">{shopTotal(value)}</span>円
+                    </div>
                   </td>
-                 : 
-                 <td>
-                 <table className="table W-100 font-weight-bold">
-                   <tr>
-                     <th className="bg-light font-weight-bold align-middle" style={itemName}>商品名</th>
-                     <th className="bg-light font-weight-bold align-middle" >価格</th>
-                     <th className="bg-light font-weight-bold align-middle" >発注数</th>
-                     <th className="bg-light font-weight-bold align-middle text-center" style={total}>合計金額</th>
-                     <th className="bg-light font-weight-bold align-middle" style={confirm} >認証</th>
-                   </tr>
-                     {value[Object.keys(value)[0]].map((data)=>(
-                     <tr> 
-                       <td>{data.item_name}</td>
-                       <td className="text-right text-danger align-middle">{data.item_price}</td>
-                       <td className="text-right text-primary align-middle">{data.num}</td>
-                       <td className="text-right text-danger align-middle">{Number(data.item_price) * Number(data.num)}</td>
-                       <td className="text-center align-middle">
-                         {data.num >0?
-                           data.confirm === '0'? 
-                             <label className="bg-primary text-white p-2">申請中</label>
-                              : 
-                             <label className="bg-danger text-white p-2">承認済み</label>
-                            : 
-                           ''
-                         }
-                       </td>
-                     </tr>
-                     ))}
-                 </table>
-                 <div className="font-weight-bold">合計発注金額:
-                   <span className="text-danger">{shopTotal(value)}</span>円
-                 </div>
-              </td>
-               }
-               </tr>
-           ))}
-         </tbody>
-        </table>
+                  }
+                  </tr>
+              ))}
+            </tbody>
+            </table>
+            {/*/パソコンテーブル*/}
+            {/*スマートフォンテーブル*/}
+            <table className="table table-bordered order-table-phone">
+            <tbody>
+              {state.data.map((value,i)=>(
+                
+                <tr>
+                  <th className="bg-dark text-center text-white align-middle" style={nameheader}>{Object.keys(value)[0]}</th>
+                  {value[Object.keys(value)[0]].length === 0 ?  /*各店オーダーがあるかどうか？*/
+                      <td>
+                        <div className="p-5 bg-light text-center font-weight-bold">まだオーダーがありません。</div>
+                      </td>
+                    : 
+                    <td>
+                    <table className="table W-100 font-weight-bold">
+                        {value[Object.keys(value)[0]].map((data)=>(
+                        <tbody>
+                           <tr> 
+                             <th className="bg-light font-weight-bold align-middle" style={itemName} colSpan="3">商品名</th>
+                           </tr>
+                           <tr>
+                             <td colSpan="3">{data.item_name}</td>
+                           </tr>
+                           <tr>
+                             <th className="bg-light font-weight-bold align-middle" >価格</th>
+                             <th className="bg-light font-weight-bold align-middle" >発注数</th>
+                             <th className="bg-light font-weight-bold align-middle text-center" style={total}>計</th>
+                           </tr>
+                           <tr>
+                             <td className="text-right text-danger align-middle">{data.item_price}</td>
+                             <td className="text-right text-primary align-middle">{data.num}</td>
+                             <td className="text-right text-danger align-middle">{Number(data.item_price) * Number(data.num)}</td>
+                           </tr>
+                           <tr>
+                            <th className="bg-light font-weight-bold align-middle" style={confirm} >認証</th>
+                            <td className="text-center align-middle" colSpan="2">
+                            {data.num >0?
+                              data.confirm === '0'? 
+                                <label className="bg-primary text-white p-2">申請中</label>
+                                  : 
+                                <label className="bg-danger text-white p-2">承認済み</label>
+                                : 
+                              ''
+                            }
+                          </td>
+                           </tr>
+                           <tr>
+                             <td colSpan="3" className="border border-0"></td>
+                           </tr>
+                        </tbody>
+                      
+                        ))}
+                    </table>
+                    <div className="font-weight-bold">合計発注金額:
+                      <span className="text-danger">{shopTotal(value)}</span>円
+                    </div>
+                  </td>
+                  }
+                  </tr>
+              ))}
+            </tbody>
+            </table>
+            {/*/スマートフォンテーブル*/}
+         </div>
+         
         }
        
        </div>

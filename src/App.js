@@ -17,7 +17,6 @@ class App extends Component{
   constructor(props){
     super(props);
     
-    
   }
   logout =() =>{
     let today = todayView();

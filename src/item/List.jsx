@@ -18,6 +18,7 @@ const  List =(props)=>{
  
   const parentSendNo =(num)=>{
     props.parentSendNo(num);
+    document.scrollingElement.scrollTop = 0;
   }
   const modalOpen =(num)=>{
     let layer = document.getElementById('layer');

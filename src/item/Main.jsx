@@ -194,7 +194,7 @@ const  Main =(props)=>{
     <div>
       {props.userId === null? 
           <div className="row">
-            <div className="col-md-8 offset-2">
+            <div className="col-md-10 offset-1">
              <div className="alert alert-danger mt-3 font-weight-bold">入力するにはログインしてください。</div>
             </div>
           </div>
