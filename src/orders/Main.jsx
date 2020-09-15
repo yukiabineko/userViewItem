@@ -110,10 +110,10 @@ const  Main =()=>{
                     <table className="table W-100 font-weight-bold">
                       <tr>
                         <th className="bg-light font-weight-bold align-middle" style={itemName}>商品名</th>
-                        <th className="bg-light font-weight-bold align-middle" >価格</th>
-                        <th className="bg-light font-weight-bold align-middle" >発注数</th>
-                        <th className="bg-light font-weight-bold align-middle text-center" style={total}>合計金額</th>
-                        <th className="bg-light font-weight-bold align-middle" style={confirm} >認証</th>
+                        <th className="bg-light font-weight-bold align-middle text-right" >価格</th>
+                        <th className="bg-light font-weight-bold align-middle text-right" >発注数</th>
+                        <th className="bg-light font-weight-bold align-middle text-right" style={total}>合計金額</th>
+                        <th className="bg-light font-weight-bold align-middle text-center" style={confirm} >認証</th>
                       </tr>
                         {value[Object.keys(value)[0]].map((data)=>(
                         <tr> 
@@ -150,7 +150,11 @@ const  Main =()=>{
               {state.data.map((value,i)=>(
                 
                 <tr>
-                  <th className="bg-dark text-center text-white align-middle" style={nameheader}>{Object.keys(value)[0]}</th>
+                  <th className="bg-dark text-center text-white align-middle" style={nameheader}>
+                    <span className="phone-store-name">
+                      {Object.keys(value)[0]}
+                    </span>
+                  </th>
                   {value[Object.keys(value)[0]].length === 0 ?  /*各店オーダーがあるかどうか？*/
                       <td>
                         <div className="p-5 bg-light text-center font-weight-bold">まだオーダーがありません。</div>
@@ -161,19 +165,19 @@ const  Main =()=>{
                         {value[Object.keys(value)[0]].map((data)=>(
                         <tbody>
                            <tr> 
-                             <th className="bg-light font-weight-bold align-middle" style={itemName} colSpan="3">商品名</th>
+                             <th className="bg-light font-weight-bold align-middle text-center" style={itemName} colSpan="3">商品名</th>
                            </tr>
                            <tr>
-                             <td colSpan="3">{data.item_name}</td>
+                             <td colSpan="3" className="text-center">{data.item_name}</td>
                            </tr>
                            <tr>
                              <th className="bg-light font-weight-bold align-middle" >価格</th>
-                             <th className="bg-light font-weight-bold align-middle" >発注数</th>
+                             <th className="bg-light font-weight-bold align-middle text-center" >発注数</th>
                              <th className="bg-light font-weight-bold align-middle text-center" style={total}>計</th>
                            </tr>
                            <tr>
                              <td className="text-right text-danger align-middle">{data.item_price}</td>
-                             <td className="text-right text-primary align-middle">{data.num}</td>
+                             <td className="text-right text-primary align-middle text-center">{data.num}</td>
                              <td className="text-right text-danger align-middle">{Number(data.item_price) * Number(data.num)}</td>
                            </tr>
                            <tr>

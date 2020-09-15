@@ -67,7 +67,7 @@ const  List =(props)=>{
                   <p className="font-weight-bold">価格:<span className="text-danger">{value.price}</span>円</p>
                 </td>
                 <td className="border-left-0 align-middle">
-                      <button className="btn btn-primary btn-block font-weight-bold" onClick={()=>parentSendNo(i)}>
+                      <button className="btn btn-primary btn-lg font-weight-bold mb-2" onClick={()=>parentSendNo(i)}>
                         <span className="mr-1"><FontAwesomeIcon icon={faInfoCircle} /></span>
                         説明
                       </button><br/>
@@ -79,13 +79,13 @@ const  List =(props)=>{
                          value.confirm === "1"?     /*承認された商品か？*/
                           　<label className="text-primary font-weight-bold">承認済み</label>
                            : 
-                           <button className="btn btn-success btn-block font-weght-bold" onClick={()=>modalOpen(i)}>
+                           <button className="btn btn-success btn-lg font-weght-bold" onClick={()=>modalOpen(i)}>
                             <span className="text-light mr-1"><FontAwesomeIcon icon={faPenAlt} /></span>
                            修正
                          </button>  
                         
                           : 
-                          <button className="btn btn-primary btn-block font-weight-bold" onClick={()=>modalOpen(i)}>
+                          <button className="btn btn-primary btn-lg font-weight-bold" onClick={()=>modalOpen(i)}>
                              <span className="text-light mr-1"><FontAwesomeIcon icon={faShoppingCart} /></span>
                             発注
                           </button>  

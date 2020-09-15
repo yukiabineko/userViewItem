@@ -23,7 +23,7 @@ const  View =(props)=>{
             </span>
             円
           </p>
-          <img src={url + itemData.path} className="w-50"  />
+          <img src={url + itemData.path}   />
           </div>
             <p className="font-weight-bold">商品説明</p>
           <div className="border pb-5 ml-2 bg-white">

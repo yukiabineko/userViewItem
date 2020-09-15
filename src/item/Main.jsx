@@ -207,11 +207,11 @@ const  Main =(props)=>{
           更新
       </button>
       <div className="row">
-        <div className="col-md-7 border-top">
+        <div className="col-md-6 border-top">
         <div className="text-center"><h2 className="font-weight-bold mt-3">商品詳細</h2></div>
          <View listNO={state.listNo} />
         </div>
-        <div className="col-md-5 border-top border-left">
+        <div className="col-md-6 border-top border-left">
         <div className="text-center"><h2 className="mb-4 mt-3 font-weight-bold">入荷商品一覧</h2></div>
          <List parentSendNo={listNoChange} parentOrder={(i)=>orderNumber(i)} />
         </div>

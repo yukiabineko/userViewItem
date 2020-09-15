@@ -96,4 +96,10 @@
    .order-table-phone{
     display: table-row;
   }
+  .phone-store-name{
+    -ms-writing-mode: tb-rl;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    letter-spacing: 5px;
+  }
 }
