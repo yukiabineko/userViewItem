@@ -27,6 +27,8 @@ const itemsReducer =(state = init_data, action)=>{
       return resetcookieReducer(state, action); 
     case "ORDERDATA":
       return orderData(state, action); 
+    case "ORDERUPDATE":  
+      return updateData(state, action); 
     default:
       return state;
   }
@@ -200,6 +202,45 @@ export const orderSend =(json, pass, email)=>{
     email: email
   }
 }
+/*更新時の各ユーザーreducer */
+
+const updateData =(state, action)=>{
+  let newData = state.items.slice();
+  newData.splice(0);
+  for(let i=0; i<action.jsonData[1].length; i++){
+    newData.push({
+      id: action.jsonData[1][i].id,
+      confirm: action.jsonData[1][i].confirm,
+      path: action.jsonData[1][i].path,
+      name: action.jsonData[1][i].name,
+      price: action.jsonData[1][i].price,
+      memo: action.jsonData[1][i].memo,
+      info: action.jsonData[1][i].info,
+      ordering: action.jsonData[1][i].num,
+      day: action.jsonData[1][i].day
+    });
+  }
+  return{
+    items: newData,
+    mode: state.mode,
+    serchItem: state.searchItem,
+    userId: action.jsonData[0].id,
+    pass: state.pass,
+    email: state.email,
+    shop: action.jsonData[0].shop,
+    storageUse: true
+  }
+
+
+}
+/*各ユーザーのオーダー*/
+export const  updateSend =(json)=>{
+  return{
+    type: 'ORDERUPDATE',
+    jsonData: json,
+  }
+}
+
 
 
 export default createStore(itemsReducer);

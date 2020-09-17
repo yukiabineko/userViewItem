@@ -6,7 +6,7 @@ import axios from 'axios';
 import { storageData, addItemArray } from '../redux/store';
 import Modal from './Modal';
 import {  todayView } from '../getDay';
-import { orderSend } from '../redux/store';
+import { orderSend, updateSend } from '../redux/store';
 import './Item.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
@@ -21,16 +21,16 @@ const CircularLoading = circularLoading({
 });
 
 const  Main =(props)=>{
-    
-    /*初期ステートのセット */
 
+  
+    /*初期ステートのセット */
     const[state, setState] = useState({
       listNo: 0,
       orderData: [],
       orderNO: 0,
       progress: true
     })
-    /*当日外データがあり場合削除*/
+    /*当日外データがある場合削除*/
     const setUpCheckTodayData =()=>{
       const today = todayView();
       const json = localStorage.getItem('shopData');
@@ -42,8 +42,9 @@ const  Main =(props)=>{
         }
       }
     }
-
+   /*ページ初期データ設定*/
     const setupItem =()=>{
+      
       let json = localStorage.getItem('shopData');
       let storage = JSON.parse(json);
       if(props.storageUse ===false || !json){
@@ -66,22 +67,42 @@ const  Main =(props)=>{
           
         });
       }
+      /*ログインされている場合でネット途切れてるかで分岐*/
       else if(props.storageUse){
       
         if(storage){
-          let datas = storage[todayView()];
-          let action = storageData(datas[0],datas[1]);
-          props.dispatch(action);
-         
-            setState({
-              listNo: state.listNo,
-              orderData: state.orderData,
-              orderNO: state.orderNO,
-              progress: false
-            })
+          let today = todayView();
+          let datas = storage[today];
+          let id =  datas[0].id;
+          let data = new URLSearchParams();
+          data.append('id', id);
+          axios.post("https://yukiabineko.sakura.ne.jp/items/userOrdersJson.php", data).then((response)=>{
+          /*ネット途切れてない*/  
+          if(response.data){
+              let day = {};
+              day[todayView()] = response.data;
+              localStorage.setItem('shopData', JSON.stringify(day));
+              
+              let action = updateSend(response.data);
+              props.dispatch(action);
+
+          }
+          /*ネット途切れた*/
+         else{
+            let action = storageData(datas[0],datas[1]);
+            props.dispatch(action);
         }
+      }).catch((error)=>{
+      });
+      setState({
+        listNo: state.listNo,
+        orderData: state.orderData,
+        orderNO: state.orderNO,
+        progress: false
+      })
      }
     }
+  }
     /*初期関数ステートセット */
     useState(setUpCheckTodayData);
     useState(setupItem);
@@ -154,8 +175,39 @@ const  Main =(props)=>{
 
         let today = todayView();
         let data = new URLSearchParams();
+        let id = props.userId;
 
-        data.append('email', props.email);
+        data.append('id', id);
+          axios.post("https://yukiabineko.sakura.ne.jp/items/userOrdersJson.php", data).then((response)=>{
+          /*ネット途切れてない*/  
+          if(response.data){
+              let day = {};
+              day[todayView()] = response.data;
+              localStorage.setItem('shopData', JSON.stringify(day));
+              
+              let action = updateSend(response.data);
+              props.dispatch(action);
+              setState({
+                listNo: state.listNo,
+                orderData: state.orderData,
+                orderNO: state.orderNO,
+                progress: false
+              })
+
+          }
+          /*ネット途切れた*/
+         else{
+          setState({
+            listNo: state.listNo,
+            orderData: state.orderData,
+            orderNO: state.orderNO,
+            progress: false
+          })
+        }
+      }).catch((error)=>{
+      });
+
+        /*data.append('email', props.email);
         data.append('password', props.pass);
         data.append('day',today);
 
@@ -184,7 +236,7 @@ const  Main =(props)=>{
           orderNO: state.orderNO,
           progress: false
         })
-      });
+      });*/
      
       }
       

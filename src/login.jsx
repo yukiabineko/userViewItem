@@ -10,9 +10,10 @@ import { withRouter } from 'react-router';
 
 const  Login =(props)=>{
   //ログイン時ページアクセス禁止
-
+  
   const redirectFunc=()=>{
-    if(props.userId >0){
+    const localData = localStorage.getItem('shopData');
+    if(props.userId >0 || localData !=null ){
       props.history.push('/');
     }
   }
