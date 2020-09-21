@@ -38,5 +38,15 @@
 }
 #flash{
   transition: 1.0s ease-in-out;
-  transform: translateX(150%);
+  transform: translateY(-150%);
+  
+  
+}
+@media screen and (max-width: 766px){
+  .login{
+    margin-left: -2%;
+  }
+  #flash{
+    margin-left: -1%;
+  }
 }
