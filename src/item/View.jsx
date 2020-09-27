@@ -12,7 +12,7 @@ const  View =(props)=>{
   return(
     <div className="bg-light main-view pb-5">
       {props.items.length === 0? 
-       <div className="bg-secondary p-5 text-white font-weight mt-3">データがありません。</div>
+       <div className="bg-secondary p-5 text-white text-center font-weight-bold mt-3">データがありません。</div>
        : 
       <div>
          <div className="text-center">
