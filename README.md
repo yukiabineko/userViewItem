@@ -6,9 +6,9 @@
 
 言語:　HTML5, CSS3, JavaScript
 
-フレームワーク: React16.13.1, bootstrap4.5.2
+フレームワーク: React:16.13.1, bootstrap:4.5.2
 
-その他主要ライブラリ: redux, axios
+その他主要ライブラリ: redux:4.0.5, axios:
 
 ## 機能一覧
 
