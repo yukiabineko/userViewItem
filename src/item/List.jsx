@@ -69,7 +69,7 @@ const  List =(props)=>{
                 <td className="border-left-0 align-middle">
                       <button className="btn btn-primary btn-lg font-weight-bold mb-2" onClick={()=>parentSendNo(i)}>
                         <span className="mr-1"><FontAwesomeIcon icon={faInfoCircle} /></span>
-                        説明
+                        表示
                       </button><br/>
                       {props.userId === null?
                          '' 
